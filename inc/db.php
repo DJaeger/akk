@@ -24,6 +24,7 @@ class allginfo
     public $rootdir;
     public $htpasswd;
     public $ebene;
+    public $typ;
 
     /*
      * $modus: 0 = normal mit login/user check gegen DB.tbluser
@@ -40,7 +41,8 @@ class allginfo
         $this->SQLYYYYMMDD = $settings['akk']['SQLYYYYMMDD'];
         $this->ort = $settings['akk']['Ort'];
         $this->ebene = $settings['akk']['Ebene'];
-        
+        $this->typ = $settings['akk']['Typ'];
+
         $this->rootdir = $settings['system']['rootdir'];
         if ($this->rootdir == "") {
             $this->rootdir = "/web/akk";
@@ -60,7 +62,7 @@ class allginfo
                 syslog(LOG_WARNING,"AkkTool: No User maintained in DB:tbluser, granting admin access. Client: $access " . "{$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
             } else {
                 $this->akkuser = $_SERVER["REMOTE_USER"];
-        
+
                 $userres=$db->query("SELECT rolle FROM tbluser WHERE login=" . $db->quote($this->akkuser))->fetch();
                 if ($userres==NULL) {
                     if ($this->akkuser == "admin") {

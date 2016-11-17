@@ -12,14 +12,22 @@ if ($info->ebene == "LV") {
   $selhead="LV";
 }
 
-$sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert,
-               sum(offenerbeitrag<1) AS stimmb
-        from tblakk";
+$sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert";
+if ($info->typ == "PT") {
+	$sql .= ", sum(offenerbeitrag<1) AS stimmb";
+} else { # Typ = AV
+	$sql .= ", sum(akkId) AS stimmb";
+}
+	$sql .= "from tblakk";
 $bigrow = $db->query($sql)->fetch();
 
-$sql = "select " . $selebene . ", count(akkId) AS mitglieder,sum(akk) as akkreditiert,
-			   sum(offenerbeitrag<1) AS stimmb
-		from tblakk group by " . $selebene . " order by " . $selebene . "";
+$sql = "select " . $selebene . ", count(akkId) AS mitglieder,sum(akk) as akkreditiert";
+if ($info->typ == "PT") {
+	$sql .= ", sum(offenerbeitrag<1) AS stimmb";
+} else { # Typ = AV
+	$sql .= ", sum(akkId) AS stimmb";
+}
+$sql .= "from tblakk group by " . $selebene . " order by " . $selebene . "";
 $q=$db->query($sql);
 ?>
 <style type="text/css">

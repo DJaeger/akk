@@ -25,7 +25,7 @@ if ($num_rows > 0) {
             $cr =  "schwebend";
             $zusatz = " schwebend!";
         }
-        elseif ($rows[$i]['offenerbeitrag'] == 0 && $rows[$i]['schwebend'] == 0) {   // hat keinen offenen Beitrag und nicht schwebend
+        elseif ((($info->typ == "PT" && $rows[$i]['offenerbeitrag'] == 0) || $info->typ == "AV") && $rows[$i]['schwebend'] == 0) {   // hat keinen offenen Beitrag, wenn keine AV und nicht schwebend
             $cr =  "akkreditierbar";
         }
         elseif ($rows[$i]['offenerbeitrag'] != 0) {   // hat noch offenen Beitrag
@@ -52,7 +52,7 @@ if ($num_rows > 0) {
         if ($rows[$i]['akk'] == 1) {
             $button = "<input class='akkbutton' type='submit' name='deakk[$id]' value='DeAkk'>";
         }
-        elseif ($rows[$i]['offenerbeitrag'] == 0) {
+        elseif (($info->typ == "PT" && $rows[$i]['offenerbeitrag'] == 0) || $info->typ == "AV") {
             $button = "<input class='akkbutton' type='submit' name='akk[$id]' value='Akk'>";
         }
         else {
