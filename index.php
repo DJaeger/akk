@@ -135,10 +135,16 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
         if (trim($_REQUEST['vorname']) == "" || trim($_REQUEST['nachname']) == "" || trim($_REQUEST['plz']) == "" || trim($_REQUEST['ort']) == "" || trim ($_REQUEST['strasse']) == "" || trim($_REQUEST['lv']) == "") {
             header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");    
         }
+		if (empty($_REQUEST['refcode']) {
+			$refcode = "NEU";
+		} else {
+			$refcode = $_REQUEST['refcode'];
+		}
 // neues Mitglied in tblakk eintragen
         $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, lv, kv, stimmberechtigung, offenerbeitrag, suchname, suchvname, akk, kommentar, offenerbeitragold) ";
-        $sql .= "values('NEU', :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, 0, :offenerbeitrag, :suchname, :suchvname, 0, :kommentar, :offenerbeitragold)";
+        $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, 0, :offenerbeitrag, :suchname, :suchvname, 0, :kommentar, :offenerbeitragold)";
         $rs = $db->prepare($sql);
+        $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
         $rs->bindParam(':vorname', $_REQUEST['vorname'], PDO::PARAM_STR);
         $rs->bindParam(':nachname', $_REQUEST['nachname'], PDO::PARAM_STR);
         $rs->bindParam(':strasse', $_REQUEST['strasse'], PDO::PARAM_STR);
@@ -153,13 +159,21 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
         $rs->bindParam(':offenerbeitragold', $_REQUEST['offenerbeitrag'], PDO::PARAM_INT);
         $rs->execute();
 // akkid ermitteln
-        $akkid = $db->lastInsertId(); 
-// sql für INSERT in tbladress        
+        $akkid = $db->lastInsertId();
+// sql für INSERT in tbladress
         $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, akkrediteur, geaendert, kommentar, new)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :akkrediteur, now(), :kommentar, 1)";
    }
-    else {       
+    else {
         $akkid = $_REQUEST['fakkid'];
-// sql für INSERT in tbladress        
+		if (!empty($_REQUEST['refcode']) {
+			$sql = "UPDATE tblakk SET refcode = :refcode WHERE akkID = :akkID";
+			$rs = $db->prepare($sql);
+			$rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
+			$rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
+			$rs	->execute();
+		}
+
+// sql für INSERT in tbladress
         $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, akkrediteur, geaendert, kommentar, edit)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :akkrediteur, now(), :kommentar, 1)";
     }
 // neuen Datensatz in tbladress eintragen
@@ -179,8 +193,9 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
 
     // bei Änderung noch Kommentar in tblakk ändern    
     if (isset($_REQUEST['fedit'])) {
-        $sql = "UPDATE tblakk SET kommentar = concat(kommentar,' | neue Adresse/Gliederung') WHERE akkID = :akkID";
+        $sql = "UPDATE tblakk SET kommentar = concat(kommentar,' | neue Adresse/Gliederung'), refcode = :refcode WHERE akkID = :akkID";
         $rs = $db->prepare($sql);
+        $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
         $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
         $rs->execute();
     }

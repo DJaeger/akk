@@ -6,7 +6,7 @@ if ($action == "edit") {
     $rsb->bindParam(':mnr', $mnr, PDO::PARAM_INT);
     $rsb->execute();
     $rowb = $rsb->fetchAll();
-    
+
     $sqlp = "SELECT * FROM tblpay WHERE akkID = :akkid";
     $rsp = $db->prepare($sqlp);
     $rsp->bindParam(':akkid', $akkid, PDO::PARAM_INT);
@@ -16,7 +16,7 @@ if ($action == "edit") {
     $i = 0;
     $vid = $rows[$i]['akkID'];
     $mnr = $rows[$i]['mitgliedsnummer'];
-    $refcode = $rows[$i]['refcode'];
+    $vrefcode = $rows[$i]['refcode'];
     $vnachname = $rows[$i]['nachname'];
     $vvorname = $rows[$i]['vorname'];
     $vlv = $rows[$i]['lv'];
@@ -31,7 +31,7 @@ if ($action == "edit") {
 else {
     $vid = 0;
     $mnr = "";
-    $refcode = "";
+    $vrefcode = "";
     $vnachname = "";
     $vvorname = "";
     $vlv = "";
@@ -52,7 +52,8 @@ td($mnr);
 echo "</tr>\n";
 echo "<tr>";
 th("Refcode");
-td($refcode);
+$field = "<input type='Text' class='w20' name='refcode' id='refcode' value='".$vrefcode."'>";
+td($field);
 echo "</tr>\n";
 echo "<tr>";
 th("Nachname");
