@@ -7,7 +7,7 @@ if ($info->ebene == "LV") {
 } else if ($info->ebene == "KV") {
   $selebene="ort";
   $selhead="Ort";
-} else {
+} else { # Ebene = BV
   $selebene="lv";
   $selhead="LV";
 }
@@ -17,15 +17,25 @@ $sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert,
         from tblakk";
 $bigrow = $db->query($sql)->fetch();
 
-$sql = "select lv, kv, ort, count(akkId) AS mitglieder,sum(akk) as akkreditiert,
-               sum(offenerbeitrag<1) AS stimmb
-        from tblakk group by " . $selebene . " order by " . $selebene . "";
+$sql = "select " . $selebene . ", count(akkId) AS mitglieder,sum(akk) as akkreditiert,
+			   sum(offenerbeitrag<1) AS stimmb
+		from tblakk group by " . $selebene . " order by " . $selebene . "";
 $q=$db->query($sql);
-echo "<table>\n";
+?>
+<style type="text/css">
+	#titel ul {
+		position: absolute;
+		top: 10px;
+		right: 30px;
+		margin: 0px;
+	}
+</style>
+<table>
+<?php
 echo "<tr><thead><th>" . $selhead . "</th><th title=\"Mitglieder\">Mtgld</th><th title=\"Stimmberechtigte\">Stimmb.</th><th>%</th><th title=\"Akkreditierte\">Akk.</th><th title=\"Anteil Akkreditierte / Mitglieder\">% Akk. / Mtgld</th><th title=\"Anteil Akkreditierte / Stimmberechtigte\">Akk. Stimmb.</th><th title=\"Stimmgewicht auf dem Parteitag\">Parteitag Anteil</th></tr></thead>\n";
 echo "<tbody>";
 while ($row=$q->fetch()) {
-    
+
     echo "<tr>";
     if ($row[$selebene]=="")
       td($row['lv']);
