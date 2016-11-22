@@ -4,6 +4,7 @@ href("start", $id, "li", "");
 href("statistik", $id, "li", "");
 href("anonstat", $id, "li", "");
 if ($id != "start") {
+    href("printakk",$id,"li","");
     if ($info->akkrolle == 9) href("mneu",$id,"li","");
     if ($info->akkrolle == 9) href("einnahmen",$id,"li","");
     if ($info->akkrolle == 9) href("aenderungen",$id,"li","");

@@ -12,6 +12,8 @@ $website['passwd']     = array("hmenu"=>"", "menu"=>"", "page"=>"passwd", "text"
 
 $website['mneu']       = array("hmenu"=>"", "menu"=>"", "page"=>"mneu", "text"=>"Neuanlage Mitglied", "titel"=>"Neuanlage");
 
+$website['printakk']   = array("hmenu"=>"", "menu"=>"", "page"=>"printakk", "text"=>"Druckliste Akkreditierte", "titel"=>"Druckansicht Akkreditierte");
+
 $website['upload']     = array("hmenu"=>"", "menu"=>"", "page"=>"upload", "text"=>"Upload Mitgliedsdaten", "titel"=>"Upload");
 
 $website['einnahmen']  = array("hmenu"=>"", "menu"=>"", "page"=>"einnahmen", "text"=>"Eingenommene Beiträge", "titel"=>"Eingenommene Beiträge");
