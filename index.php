@@ -133,13 +133,13 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
     if (isset($_REQUEST['fnew'])) {
 // checken, ob alle Daten eingegeben wurden, sonst zurück auf Los
         if (trim($_REQUEST['vorname']) == "" || trim($_REQUEST['nachname']) == "" || trim($_REQUEST['plz']) == "" || trim($_REQUEST['ort']) == "" || trim ($_REQUEST['strasse']) == "" || trim($_REQUEST['lv']) == "") {
-            header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");    
+            header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
         }
-		if (empty($_REQUEST['refcode']) {
-			$refcode = "NEU";
-		} else {
-			$refcode = $_REQUEST['refcode'];
-		}
+        if (empty($_REQUEST['refcode'])) {
+            $refcode = "NEU";
+        } else {
+            $refcode = $_REQUEST['refcode'];
+        }
 // neues Mitglied in tblakk eintragen
         $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, lv, kv, stimmberechtigung, offenerbeitrag, suchname, suchvname, akk, kommentar, offenerbeitragold) ";
         $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, 0, :offenerbeitrag, :suchname, :suchvname, 0, :kommentar, :offenerbeitragold)";
@@ -162,17 +162,15 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
         $akkid = $db->lastInsertId();
 // sql für INSERT in tbladress
         $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, akkrediteur, geaendert, kommentar, new)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :akkrediteur, now(), :kommentar, 1)";
-   }
-    else {
+    } else {
         $akkid = $_REQUEST['fakkid'];
-		if (!empty($_REQUEST['refcode']) {
-			$sql = "UPDATE tblakk SET refcode = :refcode WHERE akkID = :akkID";
-			$rs = $db->prepare($sql);
-			$rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
-			$rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
-			$rs	->execute();
-		}
-
+        if (!empty($_REQUEST['refcode'])) {
+            $sql = "UPDATE tblakk SET refcode = :refcode WHERE akkID = :akkID";
+            $rs = $db->prepare($sql);
+            $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
+            $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
+            $rs->execute();
+        }
 // sql für INSERT in tbladress
         $sql = "INSERT INTO tbladress (akkID, mitgliedsnummer, vorname, nachname, strasse, plz, ort, lv, kv, akkrediteur, geaendert, kommentar, edit)  values(:akkid, :mitgliedsnummer, :vorname, :nachname, :strasse, :plz, :ort, :lv, :kv, :akkrediteur, now(), :kommentar, 1)";
     }
@@ -191,7 +189,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
     $rs->bindParam(':kommentar', $_REQUEST['kommentar'], PDO::PARAM_STR);
     $rs->execute();
 
-    // bei Änderung noch Kommentar in tblakk ändern    
+    // bei Änderung noch Kommentar in tblakk ändern
     if (isset($_REQUEST['fedit'])) {
         $sql = "UPDATE tblakk SET kommentar = concat(kommentar,' | neue Adresse/Gliederung'), refcode = :refcode WHERE akkID = :akkID";
         $rs = $db->prepare($sql);
@@ -202,7 +200,7 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
 }
 
 // es wurde ein bestimmtes Mitglied ausgewählt
-if ($akkid > 0) {   
+if ($akkid > 0) {
     $sql = "SELECT DISTINCTROW a.*, p.akkID AS pid FROM tblakk a LEFT JOIN tblpay p ON a.akkID = p.akkID WHERE a.akkID = :akkid";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkid', $akkid, PDO::PARAM_INT);
@@ -221,8 +219,7 @@ if ( isset($_REQUEST['send']) && ($_REQUEST['send']=="Suchen") ) {
         $rs->execute();
         $rows = $rs->fetchAll();
         $num_rows = count($rows);
-    }
-    elseif ( (isset($_REQUEST['mnr']) && strlen(trim($_REQUEST['mnr'])) > 1 ) || (isset($_REQUEST['vorname']) && strlen(trim($_REQUEST['vorname'])) > 1) ) {
+    } elseif ( (isset($_REQUEST['mnr']) && strlen(trim($_REQUEST['mnr'])) > 1 ) || (isset($_REQUEST['vorname']) && strlen(trim($_REQUEST['vorname'])) > 1) ) {
         $nachname = $db->quote($_REQUEST['mnr']);
         $vorname = $db->quote($_REQUEST['vorname']);
         $fuzzyname = fuzzystring($nachname);
