@@ -5,7 +5,7 @@
   include("define.php");
   include("head.php");
 
-  if ($info->akkrolle != 9) die("N&ouml;");
+  if ($info->akkrolle != 9) die("Du bist nicht berechtigt diese Seite zu öffnen!");
 ?>
 
 <?php
