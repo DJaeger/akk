@@ -18,31 +18,12 @@ gleiche sein wie dieses hier. Wenn es als Default oder als
 
 	rootdir = /web/akk
 	
-definiert ist, dann sind dadrunter Verzeichnisse data und upload wichtig.
+definiert ist, dann ist dadrunter das Verzeichnis upload wichtig.
 
-	mkdir -p /web/akk/data
 	mkdir -p /web/akk/upload
 
-Die shell scripte (*.sh) aus dem "_sql" Verzeichnis müssen nach /web/akk/data 
-kopiert werden
 
-	cp _sql/*.sh /web/akk/data
-
-ACHTUNG!
-Damit es funktioniert muss im Script config.sh die DB Anbindung durch
-
-	DBUSER, DBPASS, DBNAME
-
-korrekt gesetzt werden.
-
-	impakk.sh und impbeitrag.sh werden für den Datenupload benötigt.
-	Mittels impwarning.sh können Warnungen an ein Mitglied hinzugefügt werden:
-	
-	Beispiel (Aufruf ohne Parameter liefert eine Hilfe):
-	./impwarnung.sh 1337 "Bitte Ruecksprache mit GenSek"
-
-
-Ausserdem relevant sind die Einträge in .htaccess und inc/.htaccess,
+Ausserdem relevant sind die Einträge in .htaccess,
 welche aber auf die (gleiche) Datei "/web/akk/data/passwd.users" zeigen.
 (bzw. anderer Pfad/Name wie durch rootdir und/oder htpasswd definiert)
 
