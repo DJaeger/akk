@@ -6,9 +6,7 @@
   include("head.php");
 
   if ($info->akkrolle != 9) die("Du bist nicht berechtigt diese Seite zu öffnen!");
-?>
 
-<?php
   function pUploadForm()
   {
     echo "<form enctype='multipart/form-data' action='upload.php' method='POST'>\n";
@@ -39,12 +37,10 @@
     {
       move_uploaded_file ($_FILES['akk']['tmp_name'],$info->rootdir . '/upload/uplakk.csv');
       echo "<h3>Import Akk-Datei</h3>\n";
-      $s=exec($info->rootdir . '/data/impakk.sh ' . $info->rootdir . '/upload/uplakk.csv');
-      echo "<p>" . $s . "</p>\n";
+	  include("impakk.php");
       echo "<h3>Import Beitrag-Datei</h3>\n";
       move_uploaded_file ($_FILES['beitrag']['tmp_name'],$info->rootdir . '/upload/uplbeitrag.csv');
-      $s=exec($info->rootdir . '/data/impbeitrag.sh ' . $info->rootdir . '/upload/uplbeitrag.csv');
-      echo "<p>" . $s . "</p>\n";
+	  include("impbeitrag.php");
     }
     else
     {
