@@ -8,10 +8,6 @@ $db = new mydb();
 $num_rows = 0;
 $akkid = 0;
 $action = "akk";
-$errmsg = "";
-
-// im life-Betrieb auskommentieren!
-$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 
 // Mitglied wird akkreditiert
 if (isset($_REQUEST['akk'])) {
@@ -191,10 +187,30 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
 
     // bei Änderung noch Kommentar in tblakk ändern
     if (isset($_REQUEST['fedit'])) {
-        $sql = "UPDATE tblakk SET kommentar = concat(kommentar,' | neue Adresse/Gliederung'), refcode = :refcode WHERE akkID = :akkID";
+        $sql = "UPDATE tblakk SET 
+					refcode = :refcode,
+					vorname = :vorname,
+					nachname = :nachname,
+					strasse = :strasse,
+					plz = :plz,
+					ort = :ort,
+					lv = :lv,
+					kv = :kv,
+					kommentar = :kommentar,
+					warnung = :warnung
+				WHERE akkID = :akkID";
         $rs = $db->prepare($sql);
-        $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
         $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
+        $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
+		$rs->bindParam(':vorname', $_REQUEST['vorname'], PDO::PARAM_STR);
+		$rs->bindParam(':nachname', $_REQUEST['nachname'], PDO::PARAM_STR);
+		$rs->bindParam(':strasse', $_REQUEST['strasse'], PDO::PARAM_STR);
+		$rs->bindParam(':plz', $_REQUEST['plz'], PDO::PARAM_STR);
+		$rs->bindParam(':ort', $_REQUEST['ort'], PDO::PARAM_STR);
+		$rs->bindParam(':lv', $_REQUEST['lv'], PDO::PARAM_STR);
+		$rs->bindParam(':kv', $_REQUEST['kv'], PDO::PARAM_STR);
+		$rs->bindParam(':kommentar', $_REQUEST['kommentar'], PDO::PARAM_STR);
+		$rs->bindParam(':warnung', $_REQUEST['warnung'], PDO::PARAM_STR);
         $rs->execute();
     }
 }

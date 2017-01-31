@@ -26,6 +26,8 @@ if ($action == "edit") {
     $vort = $rows[$i]['ort'];
     $voffen = $rows[$i]['offenerbeitrag'];
     $vgebdat = $rows[$i]['geburtsdatum'];
+    $vkommentar = $rows[$i]['kommentar'];
+    $vwarnung = $rows[$i]['warnung'];
     $vakkrediteur = $rows[$i]['akkrediteur'];
 }
 else {
@@ -41,6 +43,8 @@ else {
     $vort = "";
     $voffen = "";
     $vgebdat = "";
+    $vkommentar = "";
+    $vwarnung = "0";
     $vakkrediteur = $info->akkuser;
 }
 
@@ -105,7 +109,13 @@ td($vgebdat);
 echo "</tr>\n";    
 echo "<tr>";
 th("Kommentar");
-$field = "<textarea name='kommentar' id='kommentar' cols='50' rows='3'></textarea>";
+$field = "<textarea name='kommentar' id='kommentar' cols='50' rows='3' maxlength='255'>" . $vkommentar . "</textarea>";
+td($field);
+echo "</tr>\n";
+echo "<tr>";
+th("Warnung");
+$checked = ($vwarnung=='1')?'checked="checked"':'';
+$field = '<input type="checkbox" name="warnung" id="warnung" value="1"' . $checked . '>';
 td($field);
 echo "</tr>\n";
 echo "<tr>";
@@ -155,8 +165,6 @@ STUFF;
     }
 echo <<<STUFF2
 </table>
-<p>Zur Beachtung: geänderte Adressdaten/Gliederungszugehörigkeit werden NICHT in der Akkreditierungstabelle geändert.<br>
-Die Daten werden in einer extra Tabelle gespeichert, um sie später im CRM einpflegen zu können.</p>
 <h2>Bisherige Änderungen</h2>
 <table>
 <tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
