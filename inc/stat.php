@@ -18,7 +18,7 @@ if ($info->typ == "PT") {
 } else { # Typ = AV
 	$sql .= ", sum(akkId) AS stimmb";
 }
-	$sql .= "from tblakk";
+	$sql .= " from tblakk";
 $bigrow = $db->query($sql)->fetch();
 
 $sql = "select " . $selebene . ", count(akkId) AS mitglieder,sum(akk) as akkreditiert";
@@ -27,28 +27,14 @@ if ($info->typ == "PT") {
 } else { # Typ = AV
 	$sql .= ", sum(akkId) AS stimmb";
 }
-$sql .= "from tblakk group by " . $selebene . " order by " . $selebene . "";
+$sql .= " from tblakk group by " . $selebene . " order by " . $selebene . "";
 $q=$db->query($sql);
-?>
-<style type="text/css">
-	#titel ul {
-		position: absolute;
-		top: 10px;
-		right: 30px;
-		margin: 0px;
-	}
-</style>
-<table>
-<?php
-echo "<tr><thead><th>" . $selhead . "</th><th title=\"Mitglieder\">Mtgld</th><th title=\"Stimmberechtigte\">Stimmb.</th><th>%</th><th title=\"Akkreditierte\">Akk.</th><th title=\"Anteil Akkreditierte / Mitglieder\">% Akk. / Mtgld</th><th title=\"Anteil Akkreditierte / Stimmberechtigte\">Akk. Stimmb.</th><th title=\"Stimmgewicht auf dem Parteitag\">Parteitag Anteil</th></tr></thead>\n";
+echo "<table><tr><thead><th>" . $selhead . "</th><th title=\"Mitglieder\">Mtgld</th><th title=\"Stimmberechtigte\">Stimmb.</th><th>%</th><th title=\"Akkreditierte\">Akk.</th><th title=\"Anteil Akkreditierte / Mitglieder\">% Akk. / Mtgld</th><th title=\"Anteil Akkreditierte / Stimmberechtigte\">Akk. Stimmb.</th><th title=\"Stimmgewicht auf dem Parteitag\">Parteitag Anteil</th></tr></thead>\n";
 echo "<tbody>";
 while ($row=$q->fetch()) {
 
     echo "<tr>";
-    if ($row[$selebene]=="")
-      td($row['lv']);
-    else
-      td($row[$selebene]);
+    td($row[$selebene]);
     td($row['mitglieder'],"r");
     td($row['stimmb'],"r");
     if ($row['mitglieder'] == 0)
