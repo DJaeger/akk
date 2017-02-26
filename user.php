@@ -6,7 +6,7 @@
   include("head.php");
   include_once("passwdfkt.php");
 
-  if ($info->akkrolle != 9) die("N&ouml;");
+  if ($info->akkrolle != 9) die("Du bist nicht berechtigt diese Seite zu öffnen!");
 ?>
 
 <?php
@@ -321,7 +321,7 @@
       $User=preg_replace("/[^0-9a-zA-ZäöüÄÖÜß]/","",$_REQUEST['u']);
       if ($User != $_REQUEST['u'])
       {
-        errmsg("Das Login darf nur aus Ziffern und grossen und kleinen Buchstaben bestehen");
+        errmsg("Das Login darf nur aus Ziffern und großen und kleinen Buchstaben bestehen");
         $User="";
       }
     }
