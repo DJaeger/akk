@@ -16,10 +16,10 @@ if($data == false) {
 			$insert_values[] = array_values($row);
 		}
 		# php < 5.6
-		#$insert_values_combined = call_user_func_array('array_merge', $insert_values);
+		$insert_values_combined = call_user_func_array('array_merge', $insert_values);
 		# php >= 5.6
-		$insert_values_combined = array_merge(...$insert_values);
-		$insert_values_combined = str_replace('\N',null,$insert_values_combined);
+		#$insert_values_combined = array_merge(...$insert_values);
+		#$insert_values_combined = str_replace('\N',null,$insert_values_combined);
 		$sql = 'INSERT INTO tblbeitrag (' . implode(',',array_keys($data[0])) . ') VALUES ' . implode(',',$question_marks) . ';';
 		$stmt = $db->prepare($sql);
 		$stmt->execute($insert_values_combined);
