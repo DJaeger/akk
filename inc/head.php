@@ -32,8 +32,10 @@ $sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert,
         from tblakk";
 $row = $db->query($sql)->fetch();
 $alter = "-";
-if (strlen($info->SQLYYYYMMDD) == 10 and $row['akkreditiert'] >= 5) {
-    $sql = "SELECT ROUND(AVG(DATEDIFF('" . $info->SQLYYYYMMDD . "', geburtsdatum))/365.25,2) AS 'alter' FROM tblakk WHERE akk = 1";
+if (strlen($info->startdate) == 10 and $row['akkreditiert'] >= 5) {
+    $dateparts    =    explode(".",$date);
+    $sqldate = sprintf("%04d-%02d-%02d", $dateparts[2], $dateparts[1], $dateparts[0]);
+    $sql = "SELECT ROUND(AVG(DATEDIFF('" . $sqldate . "', geburtsdatum))/365.25,2) AS 'alter' FROM tblakk WHERE akk = 1";
     $rxx = $db->query($sql)->fetch();
     $alter = number_format($rxx['alter'], 2);
 }
