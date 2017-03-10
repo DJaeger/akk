@@ -5,27 +5,16 @@ $h2 = "";
 
 $website=array();
 $website['start']      = array("hmenu"=>"", "menu"=>"", "page"=>"", "text"=>"Akkreditierung", "titel"=>"Akkreditierung");
-
 $website['user']       = array("hmenu"=>"", "menu"=>"", "page"=>"user", "text"=>"Userverwaltung", "titel"=>"Userverwaltung");
-
 $website['passwd']     = array("hmenu"=>"", "menu"=>"", "page"=>"passwd", "text"=>"Passwort ändern", "titel"=>"Passwort ändern");
-
 $website['mneu']       = array("hmenu"=>"", "menu"=>"", "page"=>"mneu", "text"=>"Neuanlage Mitglied", "titel"=>"Neuanlage");
-
 $website['printakk']   = array("hmenu"=>"", "menu"=>"", "page"=>"printakk", "text"=>"Druckliste Akkreditierte", "titel"=>"Druckansicht Akkreditierte");
-
 $website['upload']     = array("hmenu"=>"", "menu"=>"", "page"=>"upload", "text"=>"Upload Mitgliedsdaten", "titel"=>"Upload");
-
 $website['einnahmen']  = array("hmenu"=>"", "menu"=>"", "page"=>"einnahmen", "text"=>"Eingenommene Beiträge", "titel"=>"Eingenommene Beiträge");
-
 $website['aenderungen']  = array("hmenu"=>"", "menu"=>"", "page"=>"aenderungen", "text"=>"Geänderte Mitglieder", "titel"=>"Geänderte Mitglieder");
-
 $website['statistik']  = array("hmenu"=>"", "menu"=>"", "page"=>"statistik", "text"=>"Statistik", "titel"=>"Akkreditierungsstatistik");
-
 $website['anonstat']  = array("hmenu"=>"", "menu"=>"", "page"=>"statistik/index", "text"=>"öffentlicher Link", "titel"=>"Akkreditierungsstatistik");
-
 $website['logout']     = array("hmenu"=>"", "menu"=>"", "page"=>"logout", "text"=>"Logout " . $info->akkuser, "titel"=>"Logout");
-
 $website['about']      = array("hmenu"=>"", "menu"=>"", "page"=>"about", "text"=>"Lizenz Akkreditierungstool und Dank", "titel"=>"Lizenz und Dank");
 
 function href($seite, $currentid, $tag="", $linkid="", $c="", $ort="", $linktext="") {
@@ -202,6 +191,58 @@ function badinput($input) {
     else {
        return true;
     }
+}
+
+function csv_to_array($filename='', $delimiter=',', $rowcount=false)
+{
+	if(!file_exists($filename) || !is_readable($filename))
+		return FALSE;
+	
+	$header = NULL;
+	$data = array();
+	if (($handle = fopen($filename, 'r')) !== FALSE)
+	{
+		while (($row = fgetcsv($handle, 0, $delimiter, '"')) !== FALSE)
+		{
+			$num = count($row);
+			if(!$header) {
+				if ($rowcount && $num != $rowcount) {
+					return false;
+				}
+				foreach($row AS $value) {
+					$header[] = trim($value,'﻿"');
+				}
+			} else {
+				if ($rowcount) {
+					$row = array_slice($row, 0, $rowcount);
+				}
+				$data[] = array_combine($header, $row);
+			}
+		}
+		fclose($handle);
+	}
+	return $data;
+}
+
+function placeholders($text, $count=0, $separator=","){
+	$result = array();
+	if($count > 0){
+		for($x=0; $x<$count; $x++){
+			$result[] = $text;
+		}
+	}
+
+	return implode($separator, $result);
+}
+
+function parms($string,$data) {
+	$indexed=$data==array_values($data);
+	foreach($data as $k=>$v) {
+		if(is_string($v)) $v="'$v'";
+		if($indexed) $string=preg_replace('/\?/',$v,$string,1);
+		else $string=str_replace(":$k",$v,$string);
+	}
+	return $string;
 }
 
 ?>
