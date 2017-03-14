@@ -9,11 +9,21 @@
 
   function pUploadForm()
   {
+	global $info;
+	if($info->typ == "PT") {
+		echo 'Du benötigst den Bericht 319 (Akk) und 320 (Beitrag).';
+	} elseif($info->typ == "AV") {
+		echo 'Du benötigst den Bericht 323 (Akk) und 324 (Beitrag).';
+	} else {
+		exit("Fehlerhafte Konfiguration");
+	}
+
+    echo "<br /><br />\n";
     echo "<form enctype='multipart/form-data' action='upload.php' method='POST'>\n";
     echo "<input type='hidden' name='MAX_FILE_SIZE' value='100000000' />\n";
     echo "<table>\n";
-    echo "<tr><td>Akk-Datei:</td><td> <input name='akk' type='file' /></td></tr>\n";
-    echo "<tr><td>Beitrag-Datei:</td><td> <input name='beitrag' type='file' /></td></tr>\n";
+    echo "<tr><td>Akk-Datei:</td><td> <input name='akk' type='file' accept='.csv' /></td></tr>\n";
+    echo "<tr><td>Beitrag-Datei:</td><td> <input name='beitrag' type='file' accept='.csv' /></td></tr>\n";
     echo "<tr><td><input type='submit' name='submit_upload' value='Upload' /></td></tr>\n";
     echo "</table></form>\n";
   }
@@ -33,6 +43,14 @@
       $Fehler=1;
       errmsg("Beitrag-Datei fehlt");
     }
+	if(pathinfo(basename($_FILES["akk"]["name"]),PATHINFO_EXTENSION) != "csv") {
+		$Fehler=1;
+		errmsg("Akk-Datei ist keine CSV-Datei");
+	}
+	if(pathinfo(basename($_FILES["beitrag"]["name"]),PATHINFO_EXTENSION) != "csv") {
+		$Fehler=1;
+		errmsg("Beitrag-Datei ist keine CSV-Datei");
+	}
     if ($Fehler==0)
     {
       move_uploaded_file ($_FILES['akk']['tmp_name'],$info->rootdir . '/upload/uplakk.csv');
