@@ -16,7 +16,7 @@ $sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert";
 if ($info->typ == "PT") {
 	$sql .= ", sum(offenerbeitrag<1) AS stimmb";
 } else { # Typ = AV
-	$sql .= ", sum(akkId) AS stimmb";
+	$sql .= ", count(akkId) AS stimmb";
 }
 	$sql .= " from tblakk";
 $bigrow = $db->query($sql)->fetch();
@@ -25,7 +25,7 @@ $sql = "select " . $selebene . ", count(akkId) AS mitglieder,sum(akk) as akkredi
 if ($info->typ == "PT") {
 	$sql .= ", sum(offenerbeitrag<1) AS stimmb";
 } else { # Typ = AV
-	$sql .= ", sum(akkId) AS stimmb";
+	$sql .= ", count(akkId) AS stimmb";
 }
 $sql .= " from tblakk group by " . $selebene . " order by " . $selebene . "";
 $q=$db->query($sql);
@@ -77,5 +77,6 @@ if ($row['stimmb'] == 0)
   td("");
 else
   td(number_format(100 * $row['akkreditiert'] / $row['stimmb'],2) . " %","r");
+td("");
 echo "</tr></tfoot></table>\n";
 ?>
