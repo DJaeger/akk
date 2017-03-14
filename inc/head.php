@@ -31,7 +31,7 @@ if ($id == "about") {
 	$row = $db->query($sql)->fetch();
 	$alter = "-";
 	if (strlen($info->startdate) == 10 and $row['akkreditiert'] >= 5) {
-		$dateparts    =    explode(".",$date);
+		$dateparts    =    explode(".",$info->startdate);
 		$sqldate = sprintf("%04d-%02d-%02d", $dateparts[2], $dateparts[1], $dateparts[0]);
 		$sql = "SELECT ROUND(AVG(DATEDIFF('" . $sqldate . "', geburtsdatum))/365.25,2) AS 'alter' FROM tblakk WHERE akk = 1";
 		$rxx = $db->query($sql)->fetch();
