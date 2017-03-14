@@ -55,6 +55,14 @@ function th($x, $c = "", $a = "") {
 <link rel="shortcut icon" href="/favicon.ico" >
 <link rel="stylesheet" type="text/css" href="/css/akk.css" media="screen">
 <link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
+<style type="text/css">
+	#titel {
+		height: 7em;
+	}
+	#result {
+		margin-top: 8em;
+	}
+</style>
 <!-- DO NOT REMOVE THIS
 Hier steht ein Dank an Wilm, der das erste Akk-Tool überhaupt für die Piratenpartei programmiert hat,
 und an Hendrik und Sebastian, die die Akkreditierung immer reibungslos zum Laufen gebracht haben.
