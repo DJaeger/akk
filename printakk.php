@@ -1,21 +1,11 @@
 <?php
-$id="start";
+$id="printakk";
 ini_set('include_path', 'inc');
 include("db.php");
 include("define.php");
 $db = new mydb();
 // reset Variablen
 $num_rows = 0;
-$akkid = 0;
-$action = "akk";
-$errmsg = "";
-
-// im life-Betrieb auskommentieren!
-$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
-
-ini_set('display_errors',0);
-ini_set('display_startup_errors',0);
-error_reporting(0);
 
 $mnr = intval($_REQUEST['mnr']);
 $sql = "SELECT DISTINCTROW * FROM tblakk WHERE akk = 1 ORDER BY mitgliedsnummer";
@@ -45,10 +35,18 @@ header("Content-Type: text/html; charset=utf-8");
 		width: 100%;
 		right: 0px;
 	}
+	#titel {
+		height:0px;
+	}
 </style>
 </head>
 <body>
 <div id = "wrapper">
+<div id = "titel">
+<?php
+	include ("menu.php");
+?>
+</div>
 <div id = "result">
 <table class="akk">
 <colgroup>
@@ -86,7 +84,6 @@ if ($num_rows > 0) {
 
 ?>
 </table>
-</form>
 </div> <!-- result -->   
 </div> <!-- wrapper -->  
 </body>
