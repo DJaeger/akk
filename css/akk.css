@@ -9,7 +9,7 @@ body {font:100.01% sans-serif; background-color:#FEFEFE; color:#222; margin:0; p
 #titel a      {display:block; padding:2px 6px; text-decoration:none;}
 
 #search       {height:215px; position:relative; width:100%; padding:0 30px; xborder-top:1px solid #fff;}
-#search form  {clear:left;background-color:#FFFFFF;}
+#search form  {clear:left;background-color:#FFFFFF;height:6em;}
 #search table {position:absolute; left:30px; bottom:0; }
 #search input[type=submit] {font-size:1.5em; font-weight:bold; padding:2px 10px;}
 
