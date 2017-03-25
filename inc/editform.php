@@ -114,8 +114,15 @@ td($field);
 echo "</tr>\n";
 echo "<tr>";
 th("Warnung");
-$checked = ($vwarnung=='1')?'checked="checked"':'';
-$field = '<input type="checkbox" name="warnung" id="warnung" value="1"' . $checked . '>';
+function selected($option){
+	global $vwarnung;
+	if($vwarnung==$option) {
+		return 'selected="selected"'
+	} else {
+		return '';
+	}
+};
+$field = '<select name="warnung" id="warnung"><option value="0" '.selected("0").'>Nein</option><option value="1" '.selected("1").'>Ja</option><option value="2" '.selected("2").'>Gesperrt</option></select>';
 td($field);
 echo "</tr>\n";
 echo "<tr>";

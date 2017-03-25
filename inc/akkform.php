@@ -15,8 +15,11 @@
 if ($num_rows > 0) {
     for ($i=0; $i<count($rows); $i++) {
         $zusatz = "";
-        if ($rows[$i]['warnung'] != "") {              // Spezialbehandlung erfoderlich
+        if ($rows[$i]['warnung'] == "1") {              // Spezialbehandlung erfoderlich
             $cr = "warning";
+        }
+        elseif ($rows[$i]['warnung'] == "2") {              // Ist gesperrt und kann nicht akkreditiert werden
+            $cr = "gesperrt";
         }
         elseif ($rows[$i]['akk'] == 1) {               // bereits akkreditiert
             $cr = "akkreditiert";
@@ -49,14 +52,18 @@ if ($num_rows > 0) {
         td($adr, "mini");
         tdz($rows[$i]['offenerbeitrag']);
 
-        if ($rows[$i]['akk'] == 1) {
-            $button = "<input class='akkbutton' type='submit' name='deakk[$id]' value='DeAkk'>";
-        }
-        elseif (($info->typ == "PT" && $rows[$i]['offenerbeitrag'] == 0) || $info->typ == "AV") {
-            $button = "<input class='akkbutton' type='submit' name='akk[$id]' value='Akk'>";
-        }
-        else {
+        if ($rows[$i]['warnung'] == "2") {
             $button = "";
+        } else {
+            if ($rows[$i]['akk'] == 1) {
+                $button = "<input class='akkbutton' type='submit' name='deakk[$id]' value='DeAkk'>";
+            }
+            elseif (($info->typ == "PT" && $rows[$i]['offenerbeitrag'] == 0) || $info->typ == "AV") {
+                $button = "<input class='akkbutton' type='submit' name='akk[$id]' value='Akk'>";
+            }
+            else {
+                $button = "";
+            }
         }
         td($button, "c");
 
@@ -66,7 +73,7 @@ if ($num_rows > 0) {
         elseif ($rows[$i]['offenerbeitrag'] == 0 && !(is_null($rows[$i]['pid']) ) ) {
             $button = "<input class='akkbutton deakk' type='submit' name='unpay[$id]' value='Unpay'>";
         }
-       else  {
+        else  {
             $button = "<input class='akkbutton' type='submit' name='pay[$id]' value='Pay'>";
         }
         td($button, "c");
