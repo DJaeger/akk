@@ -183,11 +183,11 @@ Wenn auch das nicht gelingt, wende dich an Lothar oder Irmgard.
 
 Danke
 =====
-Hier steht ein Dank an Wilm, der das erste Akk-Tool überhaupt für die 
-Piratenpartei programmiert hat, und an Hendrik und Sebastian, die die 
-Akkreditierung immer reibungslos zum Laufen gebracht haben.
+Hier steht ein Dank an Hendrik, Jörg und Wilm, die das erste Akk-Tool überhaupt 
+für die Piratenpartei programmiert haben sowie an Hendrik und Sebastian, die 
+die Akkreditierung immer reibungslos zum Laufen gebracht haben.
 
-Das Akk-tool wurde zum ersten Mal auf dem BPT 12.2 in Offenbach eingesetzt.
+Das Akk-tool wurde zum ersten Mal auf dem BPT 11.2 in Offenbach eingesetzt.
 Es steht unter beerware-lizenz (http://de.wikipedia.org/wiki/Beerware) - denkt 
 daran, wenn ihr sie seht. Es wurde neu geschrieben, weil inzwischen neue Dinge 
 dazugekommen sind, wie die Übersicht über die gezahlten Beiträge. Die gewohnte 
