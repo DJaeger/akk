@@ -43,6 +43,16 @@ header("Content-Type: text/html; charset=utf-8");
 				oReq.open('GET', '/api/counter.php' + bustCache, true);
 				oReq.send();
 			}, 5000);
+			function fullscreen() {
+				var element = document.documentElement;
+				if (element.requestFullScreen) {
+					element.requestFullScreen();
+				} else if (element.mozRequestFullScreen) {
+					element.mozRequestFullScreen();
+				} else if (element.webkitRequestFullScreen) {
+					element.webkitRequestFullScreen();
+				}
+			}
 		</script>
 
 		<!-- DO NOT REMOVE THIS
@@ -71,6 +81,7 @@ header("Content-Type: text/html; charset=utf-8");
 			</div> <!-- titel -->
 			<div id="footer">
 				<a href="about.php"> CC-BY-NC-SA </a>
+				<a href="#" onclick="fullscreen();return false;" style="float:right;margin-right:0.5em;"> Fullscreen </a>
 			</div> <!-- footer -->
 		</div> <!-- wrapper -->
 	</body>
