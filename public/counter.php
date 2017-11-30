@@ -3,12 +3,7 @@ ini_set('include_path', '../inc');
 include("db.php");
 $info = new allginfo("akk.ini",1);
 
-$db = new mydb();
-$sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert from tblakk";
-$row = $db->query($sql)->fetch();
-
 header("Content-Type: text/html; charset=utf-8");
-header("Refresh: 5");
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -19,7 +14,6 @@ header("Refresh: 5");
 		<title>Akk Counter</title>
 		<link rel="shortcut icon" href="/favicon.ico" >
 		<link rel="stylesheet" type="text/css" href="/css/akk.css" media="screen">
-		<link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
 		<style type="text/css">
 			h1, h2, #titel h2 {
 				float: none;
@@ -39,6 +33,18 @@ header("Refresh: 5");
 				padding-top: 4em;
 			}
 		</style>
+		<script type="text/javascript">
+			setInterval(function(){
+				var bustCache = '?' + new Date().getTime();
+				var oReq = new XMLHttpRequest();
+				oReq.onload = function () {
+					document.getElementById("count").textContent = this.$
+				};
+				oReq.open('GET', '/api/counter.php' + bustCache, true);
+				oReq.send();
+			}, 5000);
+		</script>
+
 		<!-- DO NOT REMOVE THIS
 			Hier steht ein Dank an Wilm, der das erste Akk-Tool überhaupt für die Piratenpartei programmiert hat,
 			und an Hendrik und Sebastian, die die Akkreditierung immer reibungslos zum Laufen gebracht haben.
@@ -48,8 +54,8 @@ header("Refresh: 5");
 		END -->
 	</head>
 	<body>
-		<div id = "wrapper">
-			<div id = "titel">
+		<div id="wrapper">
+			<div id="titel">
 				<h1>
 					<?=$info->veranstaltung;?>
 					<br />
@@ -60,10 +66,12 @@ header("Refresh: 5");
 				<h2>
 					Akkreditiert:
 					<br />
-					<span style='color: orange;'>
-						<?=$row['akkreditiert'];?>
-					</span>
+					<span id="count" style="color:orange;">0</span>
 				</h2>
-<?php
-include("footer.php");
-?>
+			</div> <!-- titel -->
+			<div id="footer">
+				<a href="about.php"> CC-BY-NC-SA </a>
+			</div> <!-- footer -->
+		</div> <!-- wrapper -->
+	</body>
+</html>
