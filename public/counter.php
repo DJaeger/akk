@@ -1,19 +1,7 @@
 <?php
-$id="start";
-
-ini_set('include_path', 'inc');
+ini_set('include_path', '../inc');
 include("db.php");
-include("define.php");
-
-$db = new mydb();
-// reset Variablen
-$num_rows = 0;
-$akkid = 0;
-$action = "akk";
-$errmsg = "";
-
-// im life-Betrieb auskommentieren!
-$db->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+$info = new allginfo("akk.ini",1);
 
 $db = new mydb();
 $sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert from tblakk";
@@ -28,7 +16,7 @@ header("Refresh: 5");
 	<head>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-		<title>Akk <?php print $website[$id]['titel']; ?></title>
+		<title>Akk Counter</title>
 		<link rel="shortcut icon" href="/favicon.ico" >
 		<link rel="stylesheet" type="text/css" href="/css/akk.css" media="screen">
 		<link rel="stylesheet" type="text/css" href="/css/print.css" media="print">
