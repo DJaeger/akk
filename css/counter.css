@@ -1,0 +1,17 @@
+html, body, #wrapper {margin:0; padding:0; height:100%; width:100%;}
+body {font:150% sans-serif; background-color:#FFFFFF; color:#222222; overflow:hidden;}
+
+a {color:#002244;}
+a:hover, a.current {background-color:orange;}
+
+#wrapper      {display:flex; align-items:center; justify-content:center; border-top: 18px solid orange;}
+
+#titel        {min-width:1000px;}
+
+h1, h2, #titel h2 {text-align: center;}
+h1 {margin:0; padding:10px 30px; font-size:3em;}
+h2 {margin:0; padding:0 30px; font-size:2em;}
+#count {font-size:4em;color:orange;}
+
+#fullscreen {float:right;margin-right:0.5em;}
+#footer {position: fixed; bottom:0; left:0; width:100%; font-size:8pt; height: 18px; text-align:center; padding:3px 0 0 0; background-color:orange;}
