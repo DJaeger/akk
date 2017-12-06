@@ -4,7 +4,7 @@ body {font:100.01% sans-serif; background-color:#FEFEFE; color:#222; margin:0; p
 #wrapper      {position:relative; min-height:100%; margin:0; padding:0;}
 
 #titel        {position:fixed; left:0px; top:0; height:170px; width:100%; z-index:100; background-color:#FFF; margin:0; border-top: 10px solid orange; min-width:1000px;}
-#titel ul     {margin:10px 30px 0 0; padding:0 150px 10px 10px; float:right; position:relative; min-height: 140px; z-index:300; background:url(/img/logo.png) top right no-repeat;}
+#titel ul     {margin:0; padding:10px; float:right; position:relative; min-height: 140px; z-index:300; background-color:#FFF;}
 #titel li     {margin:0; padding:0; list-style-type:none; border-bottom:1px solid #333;}
 #titel a      {display:block; padding:2px 6px; text-decoration:none;}
 
