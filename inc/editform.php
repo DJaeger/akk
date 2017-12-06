@@ -117,7 +117,7 @@ th("Warnung");
 function selected($option){
 	global $vwarnung;
 	if($vwarnung==$option) {
-		return 'selected="selected"'
+		return 'selected="selected"';
 	} else {
 		return '';
 	}

@@ -13,7 +13,7 @@ $website['upload']     = array("hmenu"=>"", "menu"=>"", "page"=>"upload", "text"
 $website['einnahmen']  = array("hmenu"=>"", "menu"=>"", "page"=>"einnahmen", "text"=>"Eingenommene Beiträge", "titel"=>"Eingenommene Beiträge");
 $website['aenderungen']  = array("hmenu"=>"", "menu"=>"", "page"=>"aenderungen", "text"=>"Geänderte Mitglieder", "titel"=>"Geänderte Mitglieder");
 $website['statistik']  = array("hmenu"=>"", "menu"=>"", "page"=>"statistik", "text"=>"Statistik", "titel"=>"Akkreditierungsstatistik");
-$website['anonstat']  = array("hmenu"=>"", "menu"=>"", "page"=>"statistik/index", "text"=>"öffentlicher Link", "titel"=>"Akkreditierungsstatistik");
+$website['anonstat']  = array("hmenu"=>"", "menu"=>"", "page"=>"public/statistik", "text"=>"Öff. Statistik", "titel"=>"Akkreditierungsstatistik");
 $website['logout']     = array("hmenu"=>"", "menu"=>"", "page"=>"logout", "text"=>"Logout " . $info->akkuser, "titel"=>"Logout");
 $website['about']      = array("hmenu"=>"", "menu"=>"", "page"=>"about", "text"=>"Lizenz Akkreditierungstool und Dank", "titel"=>"Lizenz und Dank");
 
