@@ -24,11 +24,12 @@ if ($action == "edit") {
     $vstrasse = $rows[$i]['strasse'];
     $vplz = $rows[$i]['plz'];
     $vort = $rows[$i]['ort'];
+    $vnat = $rows[$i]['nation'];
     $voffen = $rows[$i]['offenerbeitrag'];
     $vgebdat = $rows[$i]['geburtsdatum'];
     $vkommentar = $rows[$i]['kommentar'];
-    $vwarnung = $rows[$i]['warnung'];
     $vakkrediteur = $rows[$i]['akkrediteur'];
+    $warnung = $rows[$i]['warnung'];
 }
 else {
     $vid = 0;
@@ -41,11 +42,12 @@ else {
     $vstrasse = "";
     $vplz = "";
     $vort = "";
+    $vnat = "";
     $voffen = "";
     $vgebdat = "";
     $vkommentar = "";
-    $vwarnung = "0";
     $vakkrediteur = $info->akkuser;
+    $warnung = "";
 }
 
 echo "<form action='index.php' method='POST'>\n";
@@ -94,6 +96,11 @@ $field = "<input type='Text' class='w40' name='ort' id='ort' value='".$vort."'>"
 td($field);
 echo "</tr>\n";
 echo "<tr>";
+th("Nationalit&auml;t");
+$field = "<input type='Text' class='w40' name='nat' id='nat' value='".$vnat."'>";
+td($field);
+echo "</tr>\n";
+echo "<tr>";
 th("Offener Beitrag");
 if ($action == "new") {
     $field = "<input type='Text' class='w20' name='offenerbeitrag' id='offenerbeitrag' value='".$voffen."'>";
@@ -105,7 +112,8 @@ else {
 echo "</tr>\n";    
 echo "<tr>";
 th("Geburtsdatum");
-td($vgebdat);
+$field="<input type='Text' class='w20' name='gebdat' id='gebdat' value='" . $vgebdat . "'>";
+td($field);
 echo "</tr>\n";    
 echo "<tr>";
 th("Kommentar");
@@ -114,16 +122,23 @@ td($field);
 echo "</tr>\n";
 echo "<tr>";
 th("Warnung");
-function selected($option){
-	global $vwarnung;
-	if($vwarnung==$option) {
-		return 'selected="selected"';
+if ($info->akkrolle == 9) {
+	echo "<tr>";
+	th("Warnung");
+	$field = "<select name='warnung' id='warnung'>";
+	if ($warnung == "") {
+		$field = $field . "<option selected value=''>Nein</option><option value='1'>Ja</option><option value='S'>Gesperrt</option>";
+	} else if ($warnung == "S") {
+		$field = $field . "<option value=''>Nein</option><option value='1'>Ja</option><option selected value='S'>Gesperrt</option>";
 	} else {
-		return '';
+		$field = $field . "<option value=''>Nein</option><option selected value='1'>Ja</option><option value='S'>Gesperrt</option>";
 	}
-};
-$field = '<select name="warnung" id="warnung"><option value="0" '.selected("0").'>Nein</option><option value="1" '.selected("1").'>Ja</option><option value="2" '.selected("2").'>Gesperrt</option></select>';
-td($field);
+	$field = $field . "</select>";
+	td($field);
+	echo "</tr>\n";
+} else {
+	td($warnung);
+}
 echo "</tr>\n";
 echo "<tr>";
 th("Akkrediteur");
@@ -174,7 +189,7 @@ echo <<<STUFF2
 </table>
 <h2>Bisherige Änderungen</h2>
 <table>
-<tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
+<tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Nat.</th><th>Geburtsdatum</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
 STUFF2;
 
     $sqla = "SELECT * FROM tbladress WHERE akkID = :akkid";
@@ -192,6 +207,8 @@ STUFF2;
         td($rowa[$i]['strasse']);
         td($rowa[$i]['plz']);
         td($rowa[$i]['ort']);
+        td($rowa[$i]['nation']);
+        td($rowa[$i]['geburtsdatum']);
         td($rowa[$i]['kommentar']);
         td($rowa[$i]['akkrediteur']);
         td($rowa[$i]['geaendert']);

@@ -1,10 +1,8 @@
 <?php
-if($info->typ == "PT") {
-	$cols = 23;
-} elseif($info->typ == "AV") {
+if($info->AV == "1") {
 	$cols = 21;
 } else {
-	exit("Fehlerhafte Konfiguration");
+	$cols = 23;
 }
 
 $data = csv_to_array($info->rootdir . '/upload/uplakk.csv',";",$cols);

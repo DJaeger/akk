@@ -19,12 +19,13 @@ class allginfo
     public $startdate;
     public $enddate;
     public $ort;
+    public $ebene;
+    public $AV;
+    public $EU;
     public $akkuser;
     public $akkrolle;
     public $rootdir;
     public $htpasswd;
-    public $ebene;
-    public $typ;
 
     /*
      * $modus: 0 = normal mit login/user check gegen DB.tbluser
@@ -41,16 +42,10 @@ class allginfo
         $this->enddate = $settings['akk']['enddate'];
         $this->ort = $settings['akk']['Ort'];
         $this->ebene = $settings['akk']['Ebene'];
-        $this->typ = $settings['akk']['Typ'];
-
-        $this->rootdir = $settings['system']['rootdir'];
-        if ($this->rootdir == "") {
-            $this->rootdir = "/web/akk";
-        }
-        $this->htpasswd = $settings['system']['htpasswd'];
-        if ($this->htpasswd == "") {
-            $this->htpasswd = $this->rootdir . "/data/passwd.users";
-        }
+        $this->AV = $settings['akk']['AV'];
+        $this->EU = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
+        $this->rootdir = ($settings['system']['rootdir'])?$settings['system']['rootdir']:"/web/akk";
+        $this->htpasswd = ($settings['system']['htpasswd'])?$settings['system']['htpasswd']:"/data/passwd.users";
 
         if ($modus == 0) {
             $usercount=$db->query("SELECT COUNT(*) AS zahl FROM tbluser")->fetch();

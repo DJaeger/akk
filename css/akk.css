@@ -68,8 +68,8 @@ abbr:hover::after {
 .akkreditiert     {background-color:#D22;}
 .akkreditierbar   {background-color:#ACE200;}
 .schwebend        {background-color:#F08000;}
-.warning          {background-color:#F30EFF;}
-.gesperrt         {background-color:#CCCCCC;}
+.warnung          {background-color:#F30EFF;}
+.gesperrt         {background-color:#808080;}
 
 .akkbutton   {width:60px; font-size:14px; text-align:center; vertical-align:middle;padding:0 0 2px 0; }
 .deakk       {color:red;}

@@ -10,12 +10,10 @@
   function pUploadForm()
   {
 	global $info;
-	if($info->typ == "PT") {
-		echo 'Du benötigst den Bericht 319 (Akk) und 320 (Beitrag).';
-	} elseif($info->typ == "AV") {
+	if($info->AV == "1") {
 		echo 'Du benötigst den Bericht 323 (Akk) und 324 (Beitrag).';
 	} else {
-		exit("Fehlerhafte Konfiguration");
+		echo 'Du benötigst den Bericht 319 (Akk) und 320 (Beitrag).';
 	}
 
     echo "<br /><br />\n";
