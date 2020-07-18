@@ -159,7 +159,7 @@
       pUserList($db);
       return;
     }
-    echo "Soll der User " . $User . " gel&uuml;scht werden?<br>\n";
+    echo "Soll der User " . $User . " gel&ouml;scht werden?<br>\n";
     echo "<form method='post' action='" . $_SERVER["PHP_SELF"] . "'><br>\n";
     echo "<input type='hidden' name='u' value='" . $User . "'>\n";
     echo "<input type='submit' name='s30' value='OK'>\n";
