@@ -44,8 +44,8 @@ class allginfo
         $this->ebene = $settings['akk']['Ebene'];
         $this->AV = $settings['akk']['AV'];
         $this->EU = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
-        $this->rootdir = ($settings['system']['rootdir'])?$settings['system']['rootdir']:"/web/akk";
-        $this->htpasswd = ($settings['system']['htpasswd'])?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
+        $this->rootdir = (!empty($settings['system']['rootdir']))?$settings['system']['rootdir']:"/web/akk";
+        $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
 
         if ($modus == 0) {
             $usercount=$db->query("SELECT COUNT(*) AS zahl FROM tbluser")->fetch();
