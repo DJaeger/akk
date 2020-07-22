@@ -133,5 +133,5 @@ if ($id != "about") {
         <div class="content">
             <div class="container">
 <?php
-if ( !empty($website[$id]['text']) ) { echo "<h1 style='display:block;width:100%;'>" . $website[$id]['text'] . "</h1>\n";}
+if ( !empty($website[$id]['text']) ) { echo "<h1>" . $website[$id]['text'] . "</h1>\n";}
 if ( $h2 != "" ) { echo "<h2>" . $h2 . "</h2>\n";}

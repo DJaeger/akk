@@ -112,6 +112,10 @@ body {
 		padding-top: 100px;
 	}
 }
+.content h1 {
+	display:block;
+	width:100%;
+}
 table.akk {
     width: 100%;
 }
