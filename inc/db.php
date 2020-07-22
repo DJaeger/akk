@@ -54,7 +54,7 @@ class allginfo
             if ($this->userzahl==0) {
                 $this->akkuser =  'admin';
                 $this->akkrolle=9;
-                syslog(LOG_WARNING,"AkkTool: No User maintained in DB:tbluser, granting admin access. Client: $access " . "{$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
+                syslog(LOG_WARNING,"AkkTool: No User maintained in DB:tbluser, granting admin access. Client: " . "{$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
             } else {
                 $this->akkuser = $_SERVER["REMOTE_USER"];
 
@@ -62,7 +62,7 @@ class allginfo
                 if ($userres==NULL) {
                     if ($this->akkuser == "admin") {
                         $this->akkrolle = 9;
-                        syslog(LOG_WARNING,"AkkTool: No admin user maintained in DB:tbluser, granting admin access. Client: $access " . "{$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
+                        syslog(LOG_WARNING,"AkkTool: No admin user maintained in DB:tbluser, granting admin access. Client: " . "{$_SERVER['REMOTE_ADDR']} ({$_SERVER['HTTP_USER_AGENT']})");
                     } else {
                         die("User existiert nicht in der Datenbank");
                     }
