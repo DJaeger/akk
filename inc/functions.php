@@ -176,6 +176,21 @@ function badinput($input) {
     }
 }
 
+function checked($base,$name,$value) {
+    if(!empty($_POST[$base][$name]) && $_POST[$base][$name] == $value) {
+        return 'checked="checked"';
+    } else {
+        return '';
+    }
+}
+function selected($base,$name,$option) {
+    if(!empty($_POST[$base][$name]) && $_POST[$base][$name] == $option) {
+        return 'selected="selected"';
+    } else {
+        return '';
+    }
+}
+
 function csv_to_array($filename='', $delimiter=',', $rowcount=false) {
 	if(!file_exists($filename) || !is_readable($filename))
 		return FALSE;
@@ -204,6 +219,25 @@ function csv_to_array($filename='', $delimiter=',', $rowcount=false) {
 		fclose($handle);
 	}
 	return $data;
+}
+
+function arr2ini(array $a, array $parent = array()) {
+    $out = '';
+    foreach ($a as $k => $v) {
+        if (is_array($v)) {
+            //subsection case
+            //merge all the sections into one array...
+            $sec = array_merge((array) $parent, (array) $k);
+            //add section information to the output
+            $out .= '[' . join('.', $sec) . ']' . PHP_EOL;
+            //recursively traverse deeper
+            $out .= arr2ini($v, $sec);
+        } else {
+            //plain key->value case
+            $out .= "$k=\"$v\"" . PHP_EOL;
+        }
+    }
+    return $out;
 }
 
 function placeholders($text, $count=0, $separator=",") {
