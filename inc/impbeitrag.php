@@ -8,7 +8,9 @@ if($data == false) {
 		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$db->query('SET SESSION sql_mode="ALLOW_INVALID_DATES"');
 		$db->beginTransaction(); // also helps speed up your inserts.
+		$db->exec('SET FOREIGN_KEY_CHECKS=0;');
 		$db->exec('DELETE FROM tblbeitrag;');
+		$db->exec('SET FOREIGN_KEY_CHECKS=1;');
 		$question_marks = array();
 		$insert_values = array();
 		foreach($data as $row){
