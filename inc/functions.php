@@ -114,7 +114,7 @@ function fuzzystring($nstring) {
         if ($s != $s0) {$fuzzystring = $fuzzystring . $s;}
         $s0 = $s;
     }
-    return $fuzzystring; 
+    return $fuzzystring;
 }
 
 function zformat($zahl) {
@@ -192,33 +192,33 @@ function selected($base,$name,$option) {
 }
 
 function csv_to_array($filename='', $delimiter=',', $rowcount=false) {
-	if(!file_exists($filename) || !is_readable($filename))
-		return FALSE;
+    if(!file_exists($filename) || !is_readable($filename))
+        return FALSE;
 
-	$header = NULL;
-	$data = array();
-	if (($handle = fopen($filename, 'r')) !== FALSE)
-	{
-		while (($row = fgetcsv($handle, 0, $delimiter, '"')) !== FALSE)
-		{
-			$num = count($row);
-			if(!$header) {
-				if ($rowcount && $num != $rowcount) {
-					return false;
-				}
-				foreach($row AS $value) {
-					$header[] = trim($value,'﻿"');
-				}
-			} else {
-				if ($rowcount) {
-					$row = array_slice($row, 0, $rowcount);
-				}
-				$data[] = array_combine($header, $row);
-			}
-		}
-		fclose($handle);
-	}
-	return $data;
+    $header = NULL;
+    $data = array();
+    if (($handle = fopen($filename, 'r')) !== FALSE)
+    {
+        while (($row = fgetcsv($handle, 0, $delimiter, '"')) !== FALSE)
+        {
+            $num = count($row);
+            if(!$header) {
+                if ($rowcount && $num != $rowcount) {
+                    return false;
+                }
+                foreach($row AS $value) {
+                    $header[] = trim($value,'﻿"');
+                }
+            } else {
+                if ($rowcount) {
+                    $row = array_slice($row, 0, $rowcount);
+                }
+                $data[] = array_combine($header, $row);
+            }
+        }
+        fclose($handle);
+    }
+    return $data;
 }
 
 function arr2ini(array $a, array $parent = array()) {
@@ -241,22 +241,126 @@ function arr2ini(array $a, array $parent = array()) {
 }
 
 function placeholders($text, $count=0, $separator=",") {
-	$result = array();
-	if($count > 0){
-		for($x=0; $x<$count; $x++){
-			$result[] = $text;
-		}
-	}
+    $result = array();
+    if($count > 0){
+        for($x=0; $x<$count; $x++){
+            $result[] = $text;
+        }
+    }
 
-	return implode($separator, $result);
+    return implode($separator, $result);
 }
 
 function parms($string,$data) {
-	$indexed=$data==array_values($data);
-	foreach($data as $k=>$v) {
-		if(is_string($v)) $v="'$v'";
-		if($indexed) $string=preg_replace('/\?/',$v,$string,1);
-		else $string=str_replace(":$k",$v,$string);
-	}
-	return $string;
+    $indexed=$data==array_values($data);
+    foreach($data as $k=>$v) {
+        if(is_string($v)) $v="'$v'";
+        if($indexed) $string=preg_replace('/\?/',$v,$string,1);
+        else $string=str_replace(":$k",$v,$string);
+    }
+    return $string;
+}
+
+function recreateTables($db) {
+    $sql ="SET FOREIGN_KEY_CHECKS=0;";
+    $db->exec($sql);
+    $sql ="DROP TABLE IF EXISTS tblakk, tbladress, tblbeitrag, tblpay, tbluser;";
+    $db->exec($sql);
+    $sql ="SET FOREIGN_KEY_CHECKS=1;";
+    $db->exec($sql);
+    print("Dropped old tables.\n<br />");
+
+    $sql ="CREATE TABLE tblakk (
+          akkID int(10) unsigned NOT NULL auto_increment,
+          mitgliedsnummer int(10) unsigned default NULL,
+          refcode varchar(15) default NULL,
+          vorname varchar(60) default NULL,
+          nachname varchar(60) default NULL,
+          strasse varchar(64) default NULL,
+          plz varchar(10) default NULL,
+          ort varchar(40) default NULL,
+          nation varchar(2) default NULL,
+          lv varchar(10) default NULL,
+          kv varchar(50) default NULL,
+          geburtsdatum date default NULL,
+          stimmberechtigung tinyint(3) default NULL,
+          offenerbeitrag int(10) unsigned default NULL,
+          eintrittsdatum date default NULL,
+          schwebend tinyint(3) default NULL,
+          suchname varchar(120) default NULL,
+          suchvname varchar(120) default NULL,
+          akk tinyint(3) unsigned NOT NULL default '0',
+          akkrediteur varchar(50) default NULL,
+          geaendert datetime default NULL,
+          kommentar varchar(255) NOT NULL,
+          warnung varchar(1) default NULL,
+          offenerbeitragold int(10) unsigned default NULL,
+          PRIMARY KEY  (akkID),
+          KEY ix_mnr (mitgliedsnummer)
+        );";
+    $db->exec($sql);
+    print("Created table 'tblakk'.\n<br />");
+
+    $sql ="CREATE TABLE tbladress (
+          adressID int(10) unsigned NOT NULL auto_increment,
+          akkID int(10) unsigned NOT NULL,
+          mitgliedsnummer int(10) unsigned default NULL,
+          vorname varchar(250) default NULL,
+          nachname varchar(60) default NULL,
+          strasse varchar(64) default NULL,
+          plz varchar(10) default NULL,
+          ort varchar(40) default NULL,
+          lv varchar(10) default NULL,
+          kv varchar(50) default NULL,
+          akkrediteur varchar(50) default NULL,
+          geaendert datetime default NULL,
+          kommentar varchar(255) default NULL,
+          edit tinyint(3) unsigned default NULL,
+          new tinyint(3) unsigned default NULL,
+          PRIMARY KEY  (adressID),
+          KEY tbladress_ibfk_1 (akkID),
+          CONSTRAINT tbladress_ibfk_1 FOREIGN KEY (akkID) REFERENCES tblakk (akkID)
+        );";
+    $db->exec($sql);
+    print("Created table 'tbladress'.\n<br />");
+
+    $sql ="CREATE TABLE tblbeitrag (
+          mnr varchar(20) NOT NULL,
+          opjahr int(11) NOT NULL,
+          beitragsoll int(11) NOT NULL,
+          beitragist int(11) default NULL,
+          datumsoll date default NULL,
+          datumist date default NULL,
+          bemerkung varchar(255) default NULL
+        );";
+    $db->exec($sql);
+    print("Created table 'tblbeitrag'.\n<br />");
+
+    $sql ="CREATE TABLE tblpay (
+          beitragID int(10) unsigned NOT NULL auto_increment,
+          akkID int(10) unsigned default NULL,
+          mitgliedsnummer varchar(20) default NULL,
+          beitragoffen int(11) default NULL,
+          gezahlt int(11) default NULL,
+          akkrediteur varchar(50) default NULL,
+          geaendert datetime default NULL,
+          kommentar varchar(255) default NULL,
+          PRIMARY KEY  (beitragID),
+          KEY akkID (akkID),
+          CONSTRAINT tblpay_ibfk_1 FOREIGN KEY (akkID) REFERENCES tblakk (akkID)
+        );";
+    $db->exec($sql);
+    print("Created table 'tblpay'.\n<br />");
+
+    $sql ="CREATE TABLE tbluser (
+          login varchar(20),
+          name  varchar(60),
+          rolle int
+        );";
+    $db->exec($sql);
+    print("Created table 'tbluser'.\n<br />");
+
+    $sql ="CREATE UNIQUE INDEX iuser01 ON tbluser (name);";
+    $db->exec($sql);
+    print("Created index on 'tbluser'.\n<br />");
 }
