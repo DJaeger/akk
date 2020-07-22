@@ -1,7 +1,7 @@
-</div> <!-- result -->   
-<div id="footer">
-<a href="about.php"> CC-BY-NC-SA </a>   
-</div>
-</div> <!-- wrapper -->  
-</body>
+                <script src="/js/jquery.min.js"></script>
+                <script src="/js/bootstrap.min.js" ></script>
+            </div><!-- /.container -->
+        </div><!-- /.content -->
+    </body>
 </html>
+

@@ -271,29 +271,23 @@ if ($akkid > 0) {
 }
 
 // Suchanfrage gesendet
-if ( isset($_REQUEST['send']) && ($_REQUEST['send']=="Suchen") ) {
-    if  (intval($_REQUEST['mnr']) > 0 && intval($_REQUEST['mnr']) < 99999 ) {
-        $mnr = intval($_REQUEST['mnr']);
+if ( isset($_REQUEST['send']) && !empty($_REQUEST['searchInput']) ) {
+    if ( intval($_REQUEST['searchInput']) > 0 && intval($_REQUEST['searchInput']) < 99999 ) {
+        $searchInput = intval($_REQUEST['searchInput']);
         $sql = "SELECT DISTINCTROW a.*, p.akkID AS pid FROM tblakk a LEFT JOIN tblpay p ON a.akkID = p.akkID WHERE a.mitgliedsnummer = :mnr";
         $rs = $db->prepare($sql);
-        $rs->bindParam(':mnr', $mnr, PDO::PARAM_INT);
+        $rs->bindParam(':mnr', $searchInput, PDO::PARAM_INT);
         $rs->execute();
         $rows = $rs->fetchAll();
         $num_rows = count($rows);
-    } elseif ( (isset($_REQUEST['mnr']) && strlen(trim($_REQUEST['mnr'])) > 1 ) || (isset($_REQUEST['vorname']) && strlen(trim($_REQUEST['vorname'])) > 1) ) {
-        $nachname = $db->quote($_REQUEST['mnr']);
-        $vorname = $db->quote($_REQUEST['vorname']);
-        $fuzzyname = fuzzystring($nachname);
-        $fuzzyvorname = fuzzystring($vorname);
-        if (($fuzzyname != "" || $fuzzyvorname != "") && (strlen($fuzzyname) > 1 || strlen($fuzzyvorname) > 1)) {
-//            $fuzzyname = "%".$fuzzyname."%";
-            $fuzzyname = $fuzzyname."%";
-//            $fuzzyvorname = "%".$fuzzyvorname."%";
-            $fuzzyvorname = $fuzzyvorname."%";
-            $sql = "SELECT DISTINCTROW a.*, p.akkID AS pid FROM tblakk a LEFT JOIN tblpay p ON a.akkID = p.akkID WHERE suchname LIKE :fuzzyname AND suchvname LIKE :fuzzyvorname ORDER BY nachname, vorname";
+    } elseif ( isset($_REQUEST['searchInput']) && strlen(trim($_REQUEST['searchInput'])) > 1 ) {
+        $searchInput = $db->quote($_REQUEST['searchInput']);
+        $fuzzySearch = fuzzystring($searchInput);
+        if ( $fuzzySearch != "" && strlen($fuzzySearch) > 1 ) {
+            $fuzzySearch = $fuzzySearch."%";
+            $sql = "SELECT DISTINCTROW a.*, p.akkID AS pid FROM tblakk a LEFT JOIN tblpay p ON a.akkID = p.akkID WHERE suchname LIKE :fuzzySearch OR suchvname LIKE :fuzzySearch ORDER BY nachname, vorname";
             $rs = $db->prepare($sql);
-            $rs->bindParam(':fuzzyname', $fuzzyname, PDO::PARAM_STR);
-            $rs->bindParam(':fuzzyvorname', $fuzzyvorname, PDO::PARAM_STR);
+            $rs->bindParam(':fuzzySearch', $fuzzySearch, PDO::PARAM_STR);
             $rs->execute();
             $rows = $rs->fetchAll();
             $num_rows = count($rows);
@@ -317,4 +311,3 @@ elseif ($action == "edit") {
 }
 
 include("footer.php");
-?>

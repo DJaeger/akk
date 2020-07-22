@@ -1,0 +1,133 @@
+/**
+ * @navbar
+ */
+
+.navbar .navbar-brand.logo {
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border: none;
+	outline: none;
+	background-color: transparent;
+}
+.navbar .navbar-brand.logo img {
+	height: 30px;
+	-moz-user-select: none !important;
+}
+.navbar-event {
+    float: left;
+    margin: 14px;
+    font-size: 16px;
+	color: rgba(255, 255, 255, 0.75);
+}
+.navbar .input-group .btn {
+	height: 34px;
+    border-color: #FFFFFF;
+}
+
+
+/**
+ * @menu
+ */
+
+ul.nav li.dropdown ul.dropdown-menu,
+ul.nav li.dropdown div.dropdown-menu{
+	margin-top: 0px;
+	border-radius: 0;
+	padding:0;
+}
+.dropdown-menu > li > span,
+.dropdown-menu > li > div {
+    display: block;
+    padding: 4px 15px 0px 12px;
+    clear: both;
+    font-weight: normal;
+    line-height: 20px;
+    color: #000000;
+    white-space: nowrap;
+}
+.dropdown-menu > li > a {
+	padding: 4px 15px 4px 12px;
+	margin:0;
+}
+.dropdown-menu > li:first-child > a {
+    margin-top: 5px;
+}
+.dropdown-menu > li:last-child > a {
+    margin-bottom: 5px;
+}
+.dropdown-menu > li > .profile {
+    font-weight: bold;
+    line-height: 30px;
+}
+.dropdown-menu > li > .navbar-text,
+.dropdown-menu > .divider {
+	display: block;
+	width: 100%;
+}
+.dropdown-menu > li > .navbar-text {
+	padding: 4px 15px 4px 12px;
+	margin: 0;
+}
+.dropdown-menu li.divider {
+	margin: 5px 1px;
+}
+.dropdown-menu li h4{
+	color: #444;
+	margin: 0px 0px 15px;
+}
+
+.dropdown-menu .dropdown-inline {
+	min-width: 230px;
+	padding: 15px 12px 15px 15px;
+}
+.dropdown-menu .dropdown-inline form{
+	margin: 0px;
+}
+.dropdown-menu > li > a:hover >[class^="icon-"] {
+	background-image: url("../img/glyphicons-halflings.png");
+}
+.navbar .nav > li > .dropdown-menu:before,
+.navbar .nav > li > .dropdown-menu:after {
+	border: 0;
+}
+
+
+/**
+ * @content
+ */
+ 
+body {
+	padding: 0;
+}
+.content {
+	padding-top: 51px;
+}
+@media (max-width: 768px) {
+	.content {
+		padding-top: 124px;
+	}
+}
+@media (min-width: 769px) and (max-width: 992px) {
+	.content {
+		padding-top: 100px;
+	}
+}
+table.akk {
+    width: 100%;
+}
+
+
+/**
+ * @form
+ */
+
+fieldset {
+	font-size:1em;
+}
+input[type=text], textarea {
+	font-size:1em;
+	background-color: #fff;
+}
+input[type="date"] {
+	line-height: 1.5em;
+}

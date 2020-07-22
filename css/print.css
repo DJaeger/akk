@@ -1,6 +1,7 @@
 html {margin:0; padding:0;}
 body {font:10pt sans-serif; background-color:#FFF; color:#000; margin:0; padding:15mm;}
 
+.navbar       {display:none;}
 #search       {display:none;}
 
 #footer {display:none;}
