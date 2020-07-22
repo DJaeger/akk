@@ -1,16 +1,27 @@
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
 <table class="akk">
-<colgroup>
-<col width="9%">
-<col width="10%">
-<col width="10%">
-<col width="4%">
-<col width="20%">
-<col width="6%">
-<col width="8%">
-<col width="8%">
-<col width="24%">
-</colgroup>
+    <colgroup>
+        <col width="9%">
+        <col width="10%">
+        <col width="10%">
+        <col width="4%">
+        <col width="20%">
+        <col width="6%">
+        <col width="8%">
+        <col width="8%">
+        <col width="24%">
+    </colgroup>
+    <tr>
+        <th>Mnr</th>
+        <th>Nachname</th>
+        <th>Vorname</th>
+        <th>LV</th>
+        <th>Adresse</th>
+        <th>Offen</th>
+        <th class="c">Akk</th>
+        <th class="c">pay</th>
+        <th>Edit / Info</th>
+    </tr>
 <?php
 if ($num_rows > 0) {
     for ($i=0; $i<count($rows); $i++) {
