@@ -191,7 +191,7 @@ if ( !empty($_POST) ) {
 						<div class="form-group">
 							<label class="col-sm-2 control-label" for="akk[Ebene]">Ebene:</label>
 							<div class="col-sm-10">
-								<select name='akk[Ebene]' id='database_Ebene' class='form-control'>
+								<select name='akk[Ebene]' id='akk_Ebene' class='form-control'>
 									<option <?=selected("akk","Ebene","BV");?> value='BV'>Bund</option>
 									<option <?=selected("akk","Ebene","LV");?> value='LV'>Land</option>
 									<option <?=selected("akk","Ebene","KV");?> value='KV'>Kreis</option>
@@ -199,14 +199,13 @@ if ( !empty($_POST) ) {
 							</div>
 						</div>
 
-						<div class="form-group" id="akk_av_wrapper">
-							<div class="col-sm-offset-2 col-sm-10">
-								<div class="checkbox">
-									<label>
-										<input type="checkbox" name="akk[AV]" value="1" <?=checked("akk","AV","1");?> />
-										Aufstellungsversammlung?
-									</label>
-								</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label" for="akk[Typ]">Typ:</label>
+							<div class="col-sm-10">
+								<select name='akk[Typ]' id='akk_Typ' class='form-control'>
+									<option <?=selected("akk","Typ","PT");?> value='PT'>Parteitag</option>
+									<option <?=selected("akk","Typ","AV");?> value='AV'>Aufstellungsversammlung</option>
+								</select>
 							</div>
 						</div>
 

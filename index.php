@@ -20,33 +20,11 @@ if (isset($_REQUEST['akk'])) {
     $rs->execute();
 }
 
-// AV Mitglied wird akkreditiert
-if (isset($_REQUEST['akkav'])) {
-    $k = each($_REQUEST['akkav']);
-    $akkid = $k['key'];
-    $sql = "UPDATE tblakk SET akkav = 1, akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
-    $rs = $db->prepare($sql);
-    $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
-    $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
-    $rs->execute();
-}
-
 // Mitglied wird deakkreditiert
 if (isset($_REQUEST['deakk'])) {
     $k = each($_REQUEST['deakk']);
     $akkid = $k['key'];
     $sql = "UPDATE tblakk SET akk = 0, akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
-    $rs = $db->prepare($sql);
-    $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
-    $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
-    $rs->execute();
-}
-
-// AV Mitglied wird deakkreditiert
-if (isset($_REQUEST['deakkav'])) {
-    $k = each($_REQUEST['deakkav']);
-    $akkid = $k['key'];
-    $sql = "UPDATE tblakk SET akkav = 0, akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);

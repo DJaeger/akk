@@ -20,7 +20,7 @@ class allginfo
     public $enddate;
     public $ort;
     public $ebene;
-    public $AV;
+    public $typ;
     public $EU;
     public $akkuser;
     public $akkrolle;
@@ -42,7 +42,7 @@ class allginfo
         $this->enddate = $settings['akk']['enddate'];
         $this->ort = $settings['akk']['Ort'];
         $this->ebene = $settings['akk']['Ebene'];
-        $this->AV = $settings['akk']['AV'];
+        $this->typ = $settings['akk']['Typ'];
         $this->EU = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
         $this->rootdir = (!empty($settings['system']['rootdir']))?$settings['system']['rootdir']:"/web/akk";
         $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
