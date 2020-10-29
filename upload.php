@@ -10,13 +10,7 @@
   function pUploadForm()
   {
 	global $info;
-	if($info->typ == "PT") {
-		echo 'Du benötigst den Bericht 319 (Akk) und 320 (Beitrag).';
-	} elseif($info->typ == "AV") {
-		echo 'Du benötigst den Bericht 323 (Akk) und 324 (Beitrag).';
-	} else {
-		exit("Fehlerhafte Konfiguration");
-	}
+    echo 'Du benötigst die Akkred.-Datei (Report 319/323) und die Beitrags-Datei (Report 320/324).';
 
     echo "<br /><br />\n";
     echo "<form enctype='multipart/form-data' action='upload.php' method='POST'>\n";

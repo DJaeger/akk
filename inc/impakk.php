@@ -1,12 +1,4 @@
 <?php
-if($info->typ == "PT") {
-	$cols = 23;
-} elseif($info->typ == "AV") {
-	$cols = 21;
-} else {
-	exit("Fehlerhafte Konfiguration");
-}
-
 $data = csv_to_array($info->rootdir . '/upload/uplakk.csv',";",$cols);
 if($data == false) {
 	echo "Falsches Format";
