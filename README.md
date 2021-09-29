@@ -1,7 +1,7 @@
 Akkreditierungstool für Piraten Parteitage
 ==========================================
 
-Quelle: https://github.com/Strassenkehrer/akk
+Quelle: https://github.com/Djaeger/akk
 
 WICHTIGER HINWEIS:
 ------------------
@@ -11,6 +11,7 @@ Dieses Tool benötigt **als Server-System** entweder
 * ein OSX/Apple System mit entsprechend MySQL, Apache2, PHP
 
 Windows wird als Server-System nicht nativ unterstützt und ist ungetestet.
+Raspberry Pis reichen vollkommen aus und wurden bereits auf meheren Parteitagen genutzt.
 
 **Für die Clients** genügt ein Browser, Betriebsystem egal.
 Aus Datenschutzgründen müssen die Clients sich in einem getrennten Netzwerk
@@ -21,6 +22,8 @@ einem Host mit verschlüsselten Festplatten auf und lösche die virtuelle
 Maschine nach dem erfolgreichen Parteitag bzw. sobald du die Daten nicht mehr 
 benötigst  (mindestens also nachdem die Einspruchsfrist gegen den Parteitag bei 
 Schiedgerichten abgelaufen ist).
+Wenn Du einen Rasperry nutzt, achte darauf, dass er während der Veranstaltung nicht "greifbar" aufgestellt ist.
+Nach dem Parteitag entferne die SD-Karte und hebe sie bis zur sicheren Löschung sicher auf.
 
 Je nach Betriebsystem benötigt die virtuelle Machine ca. 3GB Plattenplatz, 
 (bei einem genügsamen Linux ohne Grafik, OpenSSH und LAMP installieren z.B. 
@@ -29,81 +32,148 @@ Ubuntu Server 64-bit/amd64 von http://www.ubuntu.com/download/server,
 https://www.virtualbox.org
 
 
-Deployment und Ausführung
+Automatische Installation
 =========================
+Lade das aktuelle Installations-Script herunter:
+```
+wget http://scripts.piraten.tools/install-akk.sh
+```
+Für eine geführte volle Installation einfach mit Bash ausführen:
+```
+bash install-akk.sh
+```
+Für eine nicht interaktive Installation (Abschluss des Setups über die Web-Oberfläche):
+```
+bash install-akk.sh -q
+```
+Die Einrichtung des Akk-Tools kann jederzeit (neu) gestartet werden über:
+http://127.0.0.1:1337/install.php
 
-Datenbank Setup
----------------
-Im Verzeichnis **_sql** ist ein README.txt für die Datenbank und Apache.
-Dort wird auch das mit der Userverwaltung erklärt.
-Lesen und machen.
+
+Manuelles Deployment und Ausführung
+===================================
+
+Clone den aktuellen Stand:
+```
+git clone https://github.com/DJaeger/akk.git /srv/akk/web/
+```
+Erstelle ein Daten- und ein Upload-Verzeichnis:
+```
+mkdir /srv/akk/data
+mkdir /srv/akk/upload
+```
 
 Apache Setup
 ------------
 Das Akk-Tool geht davon aus das es unter dem http(s):/localhost Root
 betrieben wird. URLs wie http://localhost/~benutzer/akk/index.html
 funktionieren nicht!
-   
-Wenn du dieses Paket nach "$HOME/Sites/akk" entpackt hast, dann 
+
+Wenn du dieses Paket z.B. nach "/srv/akk/web" entpackt hast, dann 
 richte nun einen virtuellen Host in Apache ein der auf einem Port
 (z.B. 1337) hört und der exakt diesen Pfad als sein DocumentRoot
 Pfad ansieht:
-   
-Mac:
 ```
-cd /etc/apache2/users
-sudo vi $LOGNAME.conf
+sudo nano /etc/apache2/sites-available/akk.conf
 ```
-Trage etwa das folgende ein, wobei BENUTZERNAME dein $LOGNAME ist:
 
+Trage folgendes ein, evtl. an deine Gegebenheiten angepasst:
 ```
-<Directory "/Users/BENUTZERNAME/Sites/">
+<Directory "/srv/akk/web">
 	Options Indexes FollowSymLinks Multiviews
 	AllowOverride All
 	Order allow,deny
 	Allow from all
 	Require all granted
 </Directory>
-
 Listen 1337
 <VirtualHost *:1337>
-	DocumentRoot "/Users/BENUTZERNAME/Sites/akk"
+	DocumentRoot "/srv/akk/web"
 </VirtualHost>
 ```
 
+Aktivieren der neuen Konfiguation: 
+```
+sudo a2ensite akk
+sudo systemctl reload apache2
+```
 Noch besser wäre, wenn du SSL für diesen virtuellen host einrichtest.
    
-Neustart des Apache2: 
+
+Datenbank Setup
+---------------
+
 ```
-sudo apachectl restart
+DROP DATABASE IF EXISTS akkdb;
+CREATE DATABASE akkdb CHARSET='utf8' COLLATE='utf8_general_ci';
+GRANT ALL ON akkdb.* TO akkuser@localhost IDENTIFIED BY 'akkuserpw';
+FLUSH PRIVILEGES;
 ```
+
 
 Akk-Tool Setup
 --------------
-Trage deinen Parteitag in inc/akk.ini ein:
+Nutze den Web-Installer:
+http://127.0.0.1:1337/install.php
+
+Oder trage alle Daten manuell in inc/akk.ini ein:
 
 ```
+[database]
+driver = mysql
+host = localhost
+;port = 3306
+db = akkdb
+username = akkuser
+password = akkuserpw
+
 [akk]
-Veranstaltung = Bezeichnung des Parteitags, z.B. BPT 15.1
-Datum = Datumszeitraum, z.B. 25.7. - 26.7.2015
-Ort = Ort des Parteitags, z.B. Würzburg
-Ebene = Gliederungsebene: "BV" für einen BPT (Statistik über LVs),
-		"LV" für einen LPT (Statistik über KVs)
-		oder "KV" für eine Kreismitgliederversammlung (Statistik über Orte)
+Veranstaltung = LPT NRW 2019.1
+startdate = 26.10.2019
+enddate = 27.10.2019
+Ort = Herne
+# Gliederungsebene: "BV" für einen BPT (Statistik über LVs),
+#     "LV" für einen LPT (Statistik über KV) oder 
+#     "KV" für eine Kreismitgliederversammlung (Statistik über Orte)
+#     oder "EP" zur Wahl für's Europaparlament (Statistik über Nationen)
+Ebene = LV
+# Parteitag?
+PT = 1
+# Auftellungsversammlung?
+AV = 1
+
+[system]
+# rootdir fuer den Upload und htpasswd
+# falls nichts angegeben ist, ist /web/akk der default
+# rootdir = /web/akk
+rootdir = /srv/akk
+
+# htpasswd kann man setzen - wenn nicht gesetzt wird
+# wird der folgende Default genommen:
+# htpasswd = $rootdir/data/passwd.users
+htpasswd = /srv/akk/data/passwd.users
 ```
 
-Funktionstest
+Benutzung
 -------------
 Verbinde dich auf http://localhost:1337/ oder https://localhost:1337/
-Nach login sollte rechts ein Menü erscheinen.
-Unter "Statistik" gibt es eine "Userverwaltung".
-Falls du deinen admin Account einträgst, achte auf die richtige Rolle (9).
+Dort findest du über die Menüs in der oberen Leiste alle Funktionen.
+
+
+Daten-Import
+============
+Logge dich wieder im Akk-Tool ein, wähle im Menü "Upload Mitgliedsdaten"
+Wähle beide Dateien aus, klicke auf "Upload".
+
+Falls der Upload fehlschlägt prüfe ob es Dateien in /web/akk/upload gibt.
+Falls nicht: Irgendwas mit den Berechtigungen der Verzeichnisse ist nicht
+             richtig.
 
 Daten für Parteitage
 --------------------
 Besorge dir eine Akkreditierungsliste und eine Beitragsliste.
 
-**Option 1:** Im CRM und im PRM gibt es die Berichte
+**Option 1:** Im PRM gibt es die Berichte
    
 * 319 - AkkTool Parteitag Akk-Datei
 * 320 - AkkTool Parteitag Beitrag-Datei
@@ -111,35 +181,15 @@ Besorge dir eine Akkreditierungsliste und eine Beitragsliste.
 Beide Dateien musst du für deine Gliederung herunterladen.
 
 Der LandesGenSek kann diese Dateien herunterladen, allerdings nur für seinen
-kompletten LV. Um den Inhalt der Dateien für einen KV zu filtern kann er 
-das Script
-```
-extract-lv-kv.sh
-```
-benutzen. Das Script erklärt sich nach Aufruf selbst:
-```
-Usage: ./extract-lv-kv.sh LVCODE "KV NAME" 319_OR_320_REPORT_FILE
-       LVCODE ist das LV Kuerzel in 2 Grossbuchstaben
-       KVNAME ist der exakte komplette Name des KVs wie im CRM
-       319_REPORT_FILE ist der Dateiname des 319er Berichts
-       320_REPORT_FILE ist der Dateiname des 320er Berichts
-```
-Beispiel:
-```
-extract-lv-kv.sh  NW "Duisburg" Downloads/319_TfDA.csv Downloads/320_j1zQ.csv
-```
-filtert die Daten NRWs für "Duisburg" in die Dateien 319_KV.csv und 320_KV.csv
-und der LV GenSek kann diese beiden Dateien als Akkreditierungsdaten an den 
-Kreis "Duisburg" weitergeben.
+kompletten LV. Für einen KV müssen die Dateien erst gefiltert werden.
 
-
-**Option 2:** Frage die Bundesschatzmeisterei (von Lothar oder Irmgard).
+**Option 2:** Frage die Bundesmitgliederverwaltung oder -schatzmeisterei.
    
 Daten für Aufstellungsversammlungen
 -----------------------------------
 Besorge dir eine Akkreditierungsliste und eine Beitragsliste.
 
-Im CRM gibt es die Berichte
+Im PRM gibt es die Berichte
 
 * 323 - AkkTool AV(nur LV) Akk-Datei
 * 324 - AkkTool AV(nur LV) Beitrag-Datei
@@ -150,36 +200,13 @@ WICHTIG: AV Daten sind nur auf Landesverbands-Ebene verfügbar. Für AVs
 unterhalb des Bundeslandes muss vorher nach Postleitzahl/Straße auf den
 entsprechende Bezirks-/Kreis-AV Bereicht eingeschränkt werden.
 
-Das Akk-Tool erwartet auch bei AVs eine Stimmberechtigung.
-Das ist rechtlich so nicht nötig. Finde einen Weg das zu umgehen,
-z.B. in dem du eine Fake-Zahlung bei einer AV erfasst.
-
 Daten für Parteitag plus AV
 ---------------------------
 Musst du für eine Veranstaltung akkreditieren, bei der Parteitag und AV quasi
-gleichzeitig stattfinden, dann ist die Empfehlung einen Server für den PT und
+gleichzeitig stattfinden, dann kannst du entweder beides im Akk-Tool aktivieren
+und über ein Akk-Tool für beides akkreditieren oder einen Server für den PT und
 einen Server für die AV aufzusetzen.
-In beiden Systemen muss das Mitglied geprüft werden und ggf. nur Unterlagen
-für den Parteitag oder nur die AV ausgehändigt werden.
 
-
-Daten-Import
-------------
-Logge dich wieder im Akk-Tool ein, wähle im Menü "Upload Mitgliedsdaten"
-Wähle beide Dateien aus, klicke auf UPLOAD.
-
-Falls der Upload fehlschlägt prüfe ob es Dateien in /web/akk/upload gibt.
-Falls nicht: Irgendwas mit den Berechtigungen der Verzeichnisse ist nicht
-             richtig.
-Falls Dateien vorhanden: Versuche die Dateien durch Aufruf der Scripte manuell 
-einzuspielen:
-```
-/web/akk/data/impakk.sh /web/akk/upload/uplakk.csv
-/web/akk/data/impbeitrag.sh /web/akk/upload/uplbeitrag.csv
-```
-Wenn auch das nicht gelingt, wende dich an Lothar oder Irmgard.
-
-===============================================================================
 
 Danke
 =====
@@ -195,9 +222,24 @@ Oberfläche haben wir beibehalten.
 
 Irmgard und Lothar, 2015
 
-===============================================================================
+=====
 
 Dieses README, die Anpassungen an MacOSX und kleinere Änderungen sind 
 im September 2015 entstanden.
 
 :smirk: @piratenschlumpf
+
+=====
+
+Die weitere Entwicklung wurde Mitte 2016 von Daniel aka DJaeger übernommen.
+Seither hat das Akk-Tool ein neues Gewand bekommen, eine neue Druck-Liste, eine
+Briefwahl-Adressliste und einen "Counter" mit dem man die aktuelle Zahl 
+akkreditierter deutlich sichtbar auf einem Bildschirm anzeigen lassen kann.
+Das Tool importiert die Mitgliedsdaten nun nativ mit PHP und benötigt dazu
+keine Scripte mehr.
+
+Ende 2019 wurden noch mal Änderungen von Lothar eingespielt, dazu gehörten u.A. 
+die Möglichkeit für eine AV parralel zu einem BPT und für Wahlen für das 
+Europaparlament zu akkreditieren.
+
+Daniel, 2021
