@@ -1,5 +1,5 @@
 <?php
-$data = csv_to_array($info->rootdir . '/upload/uplakk.csv',";",$cols);
+$data = csv_to_array($info->rootdir . '/upload/uplakk.csv',";");
 if($data == false) {
 	echo "Falsches Format";
 } else {
@@ -17,6 +17,16 @@ if($data == false) {
 		$insert_values = array();
 		foreach($data as &$row){
 			array_shift($row);
+			// Not allowed to be imported
+			unset( $row['akk'], $row['akkPT'], $row['akkAV'], $row['akkrediteur'], $row['akkrediteurPT'], $row['akkrediteurAV'] );
+			unset( $row['id'], $row['stimmberechtigung'], $row['offenerbeitragold'], $row['geaendert'] );
+			$row['offenerbeitragold'] = $row['offenerbeitrag'];
+			if ( empty( $row['suchname'] ) ) {
+				$row['suchname'] = fuzzystring($db->quote($row['nachname']));
+			}
+			if ( empty( $row['suchvname'] ) ) {
+				$row['suchvname'] = fuzzystring($db->quote($row['vorname']));
+			}
 			$question_marks[] = '(' . placeholders('?', sizeof($row)) . ')';
 			$insert_values[] = array_values($row);
 		}
@@ -29,11 +39,9 @@ if($data == false) {
 		$stmt = $db->prepare($sql);
 		$stmt->execute($insert_values_combined);
 		$db->commit();
-		echo "Akk-Daten wurden importiert";
+		successmsg("Akk-Daten wurden importiert");
 	} catch (PDOException $e){
 		$db->rollBack();
-		echo "Fehler beim importieren der Akk-Daten!<br />\nError: <br />";
-		echo $e->getMessage();
+		errmsg("Fehler beim importieren der Akk-Daten!<br />\nError: <br />" . $e->getMessage());
 	}
 }
-?>

@@ -27,11 +27,9 @@ if($data == false) {
 		$stmt->execute($insert_values_combined);
 		$db->exec('DELETE FROM tblbeitrag WHERE mnr IN (SELECT mitgliedsnummer FROM tblakk WHERE offenerbeitrag=0);');
 		$db->commit();
-		echo "Beitrag-Daten wurden importiert";
+		successmsg("Beitrag-Daten wurden importiert");
 	} catch (PDOException $e){
 		$db->rollBack();
-		echo "Fehler beim importieren der Beitrags-Daten!<br />\nError: <br />";
-		echo $e->getMessage();
+		errmsg("Fehler beim importieren der Beitrags-Daten!<br />\nError: <br />" . $e->getMessage());
 	}
 }
-?>
