@@ -20,8 +20,9 @@ class allginfo
     public $enddate;
     public $ort;
     public $ebene;
-    public $typ;
-    public $EU;
+    public $PT;
+    public $AV;
+    public $nations;
     public $akkuser;
     public $akkrolle;
     public $rootdir;
@@ -42,8 +43,13 @@ class allginfo
         $this->enddate = $settings['akk']['enddate'];
         $this->ort = $settings['akk']['Ort'];
         $this->ebene = $settings['akk']['Ebene'];
-        $this->typ = $settings['akk']['Typ'];
-        $this->EU = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
+        $this->PT = intval($settings['akk']['PT']);
+        $this->AV = intval($settings['akk']['AV']);
+        if ( $this->ebene == 'EP' ) {
+            $this->nations = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
+        } else {
+            $this->nations = array ('DE','D','');
+        }
         $this->rootdir = (!empty($settings['system']['rootdir']))?$settings['system']['rootdir']:"/web/akk";
         $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
 
@@ -76,5 +82,3 @@ class allginfo
         }
     }
 }
-
-?>

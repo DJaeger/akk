@@ -9,22 +9,44 @@ $num_rows = 0;
 $akkid = 0;
 $action = "akk";
 
-// Mitglied wird akkreditiert
-if (isset($_REQUEST['akk'])) {
-    $k = each($_REQUEST['akk']);
+// PT Mitglied wird akkreditiert
+if (isset($_REQUEST['akkpt'])) {
+    $k = each($_REQUEST['akkpt']);
     $akkid = $k['key'];
-    $sql = "UPDATE tblakk SET akk = 1, akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
+    $sql = "UPDATE tblakk SET akkPT = 1, akkrediteurPT = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
     $rs->execute();
 }
 
-// Mitglied wird deakkreditiert
+// AV Mitglied wird akkreditiert
+if (isset($_REQUEST['akkav'])) {
+    $k = each($_REQUEST['akkav']);
+    $akkid = $k['key'];
+    $sql = "UPDATE tblakk SET akkAV = 1, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
+    $rs = $db->prepare($sql);
+    $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
+    $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
+    $rs->execute();
+}
+
+// PT Mitglied wird deakkreditiert
 if (isset($_REQUEST['deakk'])) {
     $k = each($_REQUEST['deakk']);
     $akkid = $k['key'];
-    $sql = "UPDATE tblakk SET akk = 0, akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
+    $sql = "UPDATE tblakk SET akkPT = 0, akkrediteurPT = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
+    $rs = $db->prepare($sql);
+    $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
+    $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
+    $rs->execute();
+}
+
+// AV Mitglied wird deakkreditiert
+if (isset($_REQUEST['deakk'])) {
+    $k = each($_REQUEST['deakk']);
+    $akkid = $k['key'];
+    $sql = "UPDATE tblakk SET akkAV = 0, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
@@ -68,7 +90,7 @@ if (isset($_REQUEST['paid'])) {
     $rs->bindParam(':kommentar', $vkommentar, PDO::PARAM_STR);
     $rs->execute();
 // tblakk aktualisieren
-    $sql = "UPDATE tblakk SET offenerbeitragold = offenerbeitrag, offenerbeitrag = 0, schwebend=0, akkrediteur = :akkrediteur, geaendert = now(), kommentar = concat(kommentar,' | ', :kommentar) WHERE akkID = :akkID";
+    $sql = "UPDATE tblakk SET offenerbeitragold = offenerbeitrag, offenerbeitrag = 0, schwebend=0, akkrediteurPT = :akkrediteur, akkrediteurAV = :akkrediteur, geaendert = now(), kommentar = concat(kommentar,' | ', :kommentar) WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
@@ -80,7 +102,7 @@ if (isset($_REQUEST['paid'])) {
 if (isset($_REQUEST['unpay'])) {
     $k = each($_REQUEST['unpay']);
     $akkid = $k['key'];
-    $sql = "UPDATE tblakk SET akk = 0, offenerbeitrag = offenerbeitragold, schwebend = IF(mitgliedsnummer IS NULL,1,0), kommentar = concat(kommentar,' | doch nicht gezahlt'),  akkrediteur = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
+    $sql = "UPDATE tblakk SET akkPT = 0, offenerbeitrag = offenerbeitragold, schwebend = IF(mitgliedsnummer IS NULL,1,0), kommentar = concat(kommentar,' | doch nicht gezahlt'),  akkrediteurPT = :akkrediteur, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
     $rs->bindParam(':akkID', $akkid, PDO::PARAM_INT);
     $rs->bindParam(':akkrediteur', $info->akkuser, PDO::PARAM_STR);
@@ -140,8 +162,8 @@ if (isset($_REQUEST['fedit']) || isset($_REQUEST['fnew'])) {
             header("Location: http://".$_SERVER['HTTP_HOST']."/index.php");
         }
 // neues Mitglied in tblakk eintragen
-        $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, nation, lv, kv, stimmberechtigung, offenerbeitrag, suchname, suchvname, akk, kommentar, offenerbeitragold, warnung, geburtsdatum) ";
-        $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, 0, :offenerbeitrag, :suchname, :suchvname, 0, :kommentar, :offenerbeitragold, :warnung, :gebdat)";
+        $sql = "INSERT INTO tblakk (refcode, vorname, nachname, strasse, plz, ort, nation, lv, kv, offenerbeitrag, suchname, suchvname, akkPT, akkAV, kommentar, offenerbeitragold, warnung, geburtsdatum) ";
+        $sql .= "values(:refcode, :vorname, :nachname, :strasse, :plz, :ort, :nation, :lv, :kv, :offenerbeitrag, :suchname, :suchvname, 0, 0, :kommentar, :offenerbeitragold, :warnung, :gebdat)";
         $rs = $db->prepare($sql);
         $rs->bindParam(':refcode', $_REQUEST['refcode'], PDO::PARAM_STR);
         $rs->bindParam(':vorname', $_REQUEST['vorname'], PDO::PARAM_STR);

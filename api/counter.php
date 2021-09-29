@@ -6,7 +6,7 @@ $info = new allginfo("akk.ini",1);
 header("Content-Type: text/html; charset=utf-8");
 
 $db = new mydb();
-$sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert from tblakk";
+$sql = "select sum(akkPT) as akkreditiertPT, sum(akkAV) as akkreditiertAV from tblakk";
 $row = $db->query($sql)->fetch();
 
-die($row['akkreditiert']);
+die(json_encode($row));

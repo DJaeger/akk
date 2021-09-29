@@ -1,9 +1,9 @@
 html {margin:0; padding:0; height:100%;}
 body {font:100.01% sans-serif; background-color:#FEFEFE; color:#222; margin:0; padding:0 30px; overflow: scroll; height:100%;}
 
-#wrapper      {position:relative; min-height:100%; margin:0; padding:0;}
+#timer        {font-size:2em;}
 
-#titel        {position:fixed; left:0px; top:0; height:170px; width:100%; z-index:100; background-color:#FFF; margin:0; border-top: 10px solid orange; min-width:1000px;}
+#titel        {position:fixed; left:0px; top:0; height:7em; width:100%; z-index:100; background-color:#FFF; margin:0; border-top: 10px solid orange; min-width:1000px;}
 #titel ul     {margin:0; padding:10px; float:right; position:relative; min-height: 140px; z-index:300; background-color:#FFF;}
 #titel li     {margin:0; padding:0; list-style-type:none; border-bottom:1px solid #333;}
 #titel a      {display:block; padding:2px 6px; text-decoration:none;}
@@ -13,7 +13,7 @@ body {font:100.01% sans-serif; background-color:#FEFEFE; color:#222; margin:0; p
 #search table {position:absolute; left:30px; bottom:0; }
 #search input[type=submit] {font-size:1.5em; font-weight:bold; padding:2px 10px;}
 
-#result {margin-top:226px; padding-bottom:40px; z-index:2; position:relative; z-index:20;}
+#result {margin-top:8em; padding-bottom:40px; z-index:2; position:relative; z-index:20;}
 
 #footer {position: fixed; bottom:0; left:0; width:100%; font-size:8pt; height: 18px; text-align:center; padding:1px 0; background-color:orange; z-index:30;}
 
@@ -24,16 +24,15 @@ h2 {margin:0; padding:10px 0; font-size:1.8em;}
 input[type=submit] {cursor:pointer;}
 
 table {border-collapse:collapse; margin:0; position:relative; } 
-td,th {border-top:1px solid #999; border-bottom:1px solid #999; border-left:1px solid #BFBFBF; border-right:1px solid #BFBFBF; vertical-align:middle; text-align:left; padding:1px 6px;}
-th    {background-color: #EFEFEF;}
+td, th {text-align:left;}
+th {background-color: #EFEFEF;}
 tfoot {font-weight:bold;}
 
-table.akk {width:1000px;}
-fieldset {font-size:0.75em;}
-input[type=text], textarea    {font-size:1.3em; background-color:#FFF3DB;}
+input[type=text], textarea {border: solid 1px;}
 
 a {color:#002244;}
 a:hover, a.current {background-color:orange;}
+.panel a:hover, .panel a.current {background-color:inherit;}
 
 abbr {position: relative; cursor:help;}
 
@@ -71,7 +70,9 @@ abbr:hover::after {
 .warnung          {background-color:#F30EFF;}
 .gesperrt         {background-color:#808080;}
 
-.akkbutton   {width:60px; font-size:14px; text-align:center; vertical-align:middle;padding:0 0 2px 0; }
+.akkCount {color:orange; background-color:white;}
+
+.akkbutton   {width:65px; font-size:14px; text-align:center; vertical-align:middle;padding:0 0 2px 0; }
 .deakk       {color:red;}
 .akkedit     {color:blue;}
 .payedit     {font-size:16px; font-weight:bold; background-color:#F08000; padding:3px 0; width:150px; -moz-border-radius: 4px; border-radius: 4px; border:2px outset #ECE9D8;}

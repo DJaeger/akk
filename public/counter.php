@@ -18,7 +18,9 @@ header("Content-Type: text/html; charset=utf-8");
 				var bustCache = '?' + new Date().getTime();
 				var oReq = new XMLHttpRequest();
 				oReq.onload = function () {
-					document.getElementById("count").textContent = this.response;
+					var data = JSON.parse(this.response);
+					document.getElementById("countPT").textContent = data.akkreditiertPT;
+					document.getElementById("countAV").textContent = data.akkreditiertAV;
 				};
 				oReq.open('GET', '/api/counter.php' + bustCache, true);
 				oReq.send();
@@ -67,12 +69,24 @@ header("Content-Type: text/html; charset=utf-8");
 				</h1>
 				<br />
 				<br />
-				<h2>
-					Akkreditiert:
+<?php
+if ($info->PT == 1) {
+?>				<h2>
+					Akkreditiert<?=($info->PT==1&&$info->AV==1)?' PT':'';?>:
 					<br />
-					<span id="count">0</span>
+					<span id="countPT" class="counter">0</span>
 				</h2>
-			</div> <!-- titel -->
+<?php
+}
+if ($info->AV == 1) {
+?>				<h2>
+					Akkreditiert<?=($info->PT==1&&$info->AV==1)?' AV':'';?>:
+					<br />
+					<span id="countAV" class="counter">0</span>
+				</h2>
+<?php
+}
+?>			</div> <!-- titel -->
 			<div id="footer">
 				<a href="about.php" id="about"> CC-BY-NC-SA </a>
 				<a href="#" id="fullscreen" onclick="toggleFullscreen();return false;"> Fullscreen </a>

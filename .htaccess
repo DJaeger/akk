@@ -1,5 +1,0 @@
-AuthName "Akk-Tool"
-AuthType Basic
-AuthUserFile /web/akk/data/passwd.users
-require valid-user
-ErrorDocument 401 "Zum erneuten Einloggen bitte Link neu aufrufen"

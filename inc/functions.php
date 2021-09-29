@@ -159,8 +159,16 @@ function th($x, $c = "", $a = "") {
    echo "<th$c>$a1$x$a2</th>";
 }
 
+function successmsg($msg) {
+    echo "<div class='alert alert-success' role='alert'>" . $msg . "</div>";
+}
+
+function warnmsg($msg) {
+    echo "<div class='alert alert-warning' role='alert'>" . $msg . "</div>";
+}
+
 function errmsg($msg) {
-   echo "<p class='red'>$msg</p>";
+    echo "<div class='alert alert-danger' role='alert'>" . $msg . "</div>";
 }
 
 function badinput($input) {
@@ -177,14 +185,14 @@ function badinput($input) {
 }
 
 function checked($base,$name,$value) {
-    if(!empty($_POST[$base][$name]) && $_POST[$base][$name] == $value) {
+    if(!empty($base[$name]) && $base[$name] == $value) {
         return 'checked="checked"';
     } else {
         return '';
     }
 }
 function selected($base,$name,$option) {
-    if(!empty($_POST[$base][$name]) && $_POST[$base][$name] == $option) {
+    if(!empty($base[$name]) && $base[$name] == $option) {
         return 'selected="selected"';
     } else {
         return '';
@@ -283,14 +291,15 @@ function recreateTables($db) {
           lv varchar(10) default NULL,
           kv varchar(50) default NULL,
           geburtsdatum date default NULL,
-          stimmberechtigung tinyint(3) default NULL,
           offenerbeitrag int(10) unsigned default NULL,
           eintrittsdatum date default NULL,
           schwebend tinyint(3) default NULL,
           suchname varchar(120) default NULL,
           suchvname varchar(120) default NULL,
-          akk tinyint(3) unsigned NOT NULL default '0',
-          akkrediteur varchar(50) default NULL,
+          akkPT tinyint(3) unsigned NOT NULL default '0',
+          akkAV tinyint(3) unsigned NOT NULL default '0',
+          akkrediteurPT varchar(50) default NULL,
+          akkrediteurAV varchar(50) default NULL,
           geaendert datetime default NULL,
           kommentar varchar(255) NOT NULL,
           warnung varchar(1) default NULL,

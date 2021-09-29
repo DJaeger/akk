@@ -28,10 +28,10 @@ if ($action == "edit") {
     $voffen = $rows[$i]['offenerbeitrag'];
     $vgebdat = $rows[$i]['geburtsdatum'];
     $vkommentar = $rows[$i]['kommentar'];
-    $vakkrediteur = $rows[$i]['akkrediteur'];
+    $vakkrediteurPT = $rows[$i]['akkrediteurPT'];
+    $vakkrediteurAV = $rows[$i]['akkrediteurAV'];
     $warnung = $rows[$i]['warnung'];
-}
-else {
+} else {
     $vid = 0;
     $mnr = "";
     $vrefcode = "";
@@ -46,123 +46,173 @@ else {
     $voffen = "";
     $vgebdat = "";
     $vkommentar = "";
-    $vakkrediteur = $info->akkuser;
+    $vakkrediteurPT = $info->akkuser;
+    $vakkrediteurAV = $info->akkuser;
     $warnung = "";
 }
 
-echo "<form action='index.php' method='POST'>\n";
-echo "<table>\n";
-echo "<tr>";
-th("Mitgliedsnummer");
-td($mnr);
-echo "</tr>\n";
-echo "<tr>";
-th("Refcode");
-$field = "<input type='Text' class='w20' name='refcode' id='refcode' value='".$vrefcode."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Nachname");
-$field = "<input type='Text' class='w40' name='nachname' id='nachname' value='".$vnachname."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Vorname");
-$field = "<input type='Text' class='w40' name='vorname' id='vorname' value='".$vvorname."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("LV");
-$field = "<input type='Text' class='w20' name='lv' id='lv' value='".$vlv."'>";
-td($field);
-echo "</tr>\n";
-th("KV");
-$field = "<input type='Text' class='w20' name='kv' id='kv' value='".$vkv."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Straße");
-$field = "<input type='Text' class='w40' name='strasse' id='strasse' value='".$vstrasse."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("PLZ");
-$field = "<input type='Text' class='w40' name='plz' id='plz' value='".$vplz."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Ort");
-$field = "<input type='Text' class='w40' name='ort' id='ort' value='".$vort."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Nationalit&auml;t");
-$field = "<input type='Text' class='w40' name='nat' id='nat' value='".$vnat."'>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Offener Beitrag");
-if ($action == "new") {
-    $field = "<input type='Text' class='w20' name='offenerbeitrag' id='offenerbeitrag' value='".$voffen."'>";
-    td($field);
-}
-else {
-    td($voffen);
-}
-echo "</tr>\n";    
-echo "<tr>";
-th("Geburtsdatum");
-$field="<input type='Text' class='w20' name='gebdat' id='gebdat' value='" . $vgebdat . "'>";
-td($field);
-echo "</tr>\n";    
-echo "<tr>";
-th("Kommentar");
-$field = "<textarea name='kommentar' id='kommentar' cols='50' rows='3' maxlength='255'>" . $vkommentar . "</textarea>";
-td($field);
-echo "</tr>\n";
-echo "<tr>";
-th("Warnung");
-if ($info->akkrolle == 9) {
-	echo "<tr>";
-	th("Warnung");
-	$field = "<select name='warnung' id='warnung'>";
-	if ($warnung == "") {
-		$field = $field . "<option selected value=''>Nein</option><option value='1'>Ja</option><option value='S'>Gesperrt</option>";
-	} else if ($warnung == "S") {
-		$field = $field . "<option value=''>Nein</option><option value='1'>Ja</option><option selected value='S'>Gesperrt</option>";
-	} else {
-		$field = $field . "<option value=''>Nein</option><option selected value='1'>Ja</option><option value='S'>Gesperrt</option>";
-	}
-	$field = $field . "</select>";
-	td($field);
-	echo "</tr>\n";
-} else {
-	td($warnung);
-}
-echo "</tr>\n";
-echo "<tr>";
-th("Akkrediteur");
-td($vakkrediteur);
-echo "</tr>\n";
-echo "</table>\n";
-if ($action == "edit") {
-    echo "<input type='hidden' name='fakkid' value='". $vid ."' >\n";
-    echo "<input type='hidden' name='fmnr' value='". $rows[$i]['mitgliedsnummer']. "' >\n";
-    echo "<p><input class='payedit' type='submit' name='fedit' value='Senden'></p>\n";
-}
-elseif ($action == "new") {
-    echo "<input type='hidden' name='fakkid' value='0' >\n";
-    echo "<input type='hidden' name='fmnr' value='0' >\n";
-    echo "<p><input class='payedit' type='submit' name='fnew' value='Anlegen'></p>\n";
-}
-echo "<p><input class='payedit cancel' type='submit' name='feditcancel' value='Abbruch'></p>\n";
-echo "</form>\n";
+echo "<form action='index.php' method='POST' class='form-horizontal'>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Mitgliedsnummer</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<p class='form-control-static'>" . $mnr . "</p>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Refcode</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='refcode' id='refcode' value='".$vrefcode."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Nachname</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='nachname' id='nachname' value='".$vnachname."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Vorname</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='vorname' id='vorname' value='".$vvorname."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>LV</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='lv' id='lv' value='".$vlv."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>KV</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='kv' id='kv' value='".$vkv."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>KV</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='kv' id='kv' value='".$vkv."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Straße</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='strasse' id='strasse' value='".$vstrasse."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>PLZ</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='plz' id='plz' value='".$vplz."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Ort</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='ort' id='ort' value='".$vort."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Nationalit&auml;t</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='nat' id='nat' value='".$vnat."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Offener Beitrag</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    if ($action == "new") {
+        echo "<input type='text' class='form-control' name='offenerbeitrag' id='offenerbeitrag' value='".$voffen."'>";
+    } else {
+        echo "<p class='form-control-static'>" . $voffen . "</p>\n";
+    }
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Geburtsdatum</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<input type='text' class='form-control' name='gebdat' id='gebdat' value='".$vgebdat."'>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Kommentar</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    echo "<textarea class='form-control' name='kommentar' id='kommentar' cols='50' rows='3' maxlength='255'>" . $vkommentar . "</textarea>\n";
+    echo "</div></div>\n";
+
+    echo "<div class='form-group'>\n";
+    echo "<label class='col-sm-2 control-label'>Warnung</label>\n";
+    echo "<div class='col-sm-10'>\n";
+    if ($info->akkrolle == 9) {
+        echo "<select class='form-control' name='warnung' id='warnung'>";
+        if ($warnung == "") {
+            echo "<option selected value=''>Nein</option><option value='1'>Ja</option><option value='S'>Gesperrt</option>";
+        } else if ($warnung == "S") {
+            echo "<option value=''>Nein</option><option value='1'>Ja</option><option selected value='S'>Gesperrt</option>";
+        } else {
+            echo "<option value=''>Nein</option><option selected value='1'>Ja</option><option value='S'>Gesperrt</option>";
+        }
+        echo "</select>";
+    } else {
+        echo "<p class='form-control-static'>" . $warnung . "</p>\n";
+    }
+    echo "</div></div>\n";
+
+
+    if ($info->PT == 1 && $info->AV == 1) {
+
+        echo "<div class='form-group'>\n";
+        echo "<label class='col-sm-2 control-label'>Akkrediteur PT</label>\n";
+        echo "<div class='col-sm-10'>\n";
+        echo "<p class='form-control-static'>" . $vakkrediteurPT . "</p>\n";
+        echo "</div></div>\n";
+
+        echo "<div class='form-group'>\n";
+        echo "<label class='col-sm-2 control-label'>Akkrediteur AV</label>\n";
+        echo "<div class='col-sm-10'>\n";
+        echo "<p class='form-control-static'>" . $vakkrediteurAV . "</p>\n";
+        echo "</div></div>\n";
+
+    } elseif ($info->PT == 1 && $info->AV == 0) {
+
+        echo "<div class='form-group'>\n";
+        echo "<label class='col-sm-2 control-label'>Akkrediteur</label>\n";
+        echo "<div class='col-sm-10'>\n";
+        echo "<p class='form-control-static'>" . $vakkrediteurPT . "</p>\n";
+        echo "</div></div>\n";
+
+    } elseif ($info->PT == 0 && $info->AV == 1) {
+
+        echo "<div class='form-group'>\n";
+        echo "<label class='col-sm-2 control-label'>Akkrediteur</label>\n";
+        echo "<div class='col-sm-10'>\n";
+        echo "<p class='form-control-static'>" . $vakkrediteurAV . "</p>\n";
+        echo "</div></div>\n";
+
+    }
+
+    echo "<div class='form-group'>\n";
+    echo "<div class='col-sm-offset-2 col-sm-10'>\n";
+    if ($action == "edit") {
+        echo "<input type='hidden' name='fakkid' value='". $vid ."'>\n";
+        echo "<input type='hidden' name='fmnr' value='". $rows[$i]['mitgliedsnummer']. "'>\n";
+        echo "<input type='submit' class='btn btn-primary' name='fedit' value='Senden'>\n";
+    } elseif ($action == "new") {
+        echo "<input type='hidden' name='fakkid' value='0'>\n";
+        echo "<input type='hidden' name='fmnr' value='0'>\n";
+        echo "<input type='submit' class='btn btn-primary' name='fnew' value='Anlegen'>\n";
+    }
+    echo "<input type='submit' class='btn btn-default' name='feditcancel' value='Abbruch'>\n";
+    echo "</div></div>\n";
+
+    echo "</form>\n";
 
 
 if ($action == "edit") {
 echo <<<STUFF
 <h2>Gezahlte Beiträge</h2>
-<table>
+<table class="table">
 <tr><th>Mnr</th><th>Jahr</th><th>Beitrag Soll</th><th>Beitrag Ist</th><th>Datum Ist</th><th>Bemerkung</th></tr>
 STUFF;
     for ($i = 0; $i < count($rowb); $i++) {
@@ -188,7 +238,7 @@ STUFF;
 echo <<<STUFF2
 </table>
 <h2>Bisherige Änderungen</h2>
-<table>
+<table class="table">
 <tr><th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>KV</th><th>Straße</th><th>PLZ</th><th>Ort</th><th>Nat.</th><th>Geburtsdatum</th><th>Kommentar</th><th>Akkrediteur</th><th>Geändert</th></tr>
 STUFF2;
 
@@ -216,4 +266,3 @@ STUFF2;
     }
     echo "</table>\n";
 }
-?>

@@ -1,16 +1,16 @@
 <?php
 
 $db = new mydb();
-$sql = "select count(akkId) AS mitglieder,sum(akk) as akkreditiert,
-						   sum(offenerbeitrag<1) AS stimmb
+$sql = "select count(akkId) AS mitglieder, sum(akkPT) as akkreditiertPT, sum(akkAV) as akkreditiertAV
 				from tblakk";
 $row = $db->query($sql)->fetch();
-$akkreditiert = $row['akkreditiert'];
+$akkreditiertPT = $row['akkreditiertPT'];
+$akkreditiertAV = $row['akkreditiertAV'];
 $alter = "-";
-if (strlen($info->startdate) == 10 and $akkreditiert >= 5) {
+if (strlen($info->startdate) == 10 and $akkreditiertPT >= 5) {
 		$dateparts    =    explode(".",$info->startdate);
 		$sqldate = sprintf("%04d-%02d-%02d", $dateparts[2], $dateparts[1], $dateparts[0]);
-		$sql = "SELECT ROUND(AVG(DATEDIFF('" . $sqldate . "', geburtsdatum))/365.25,2) AS 'alter' FROM tblakk WHERE akk = 1";
+		$sql = "SELECT ROUND(AVG(DATEDIFF('" . $sqldate . "', geburtsdatum))/365.25,2) AS 'alter' FROM tblakk WHERE akkPT = 1 OR akkAV = 1";
 		$rxx = $db->query($sql)->fetch();
 		$alter = number_format($rxx['alter'], 2);
 }
@@ -65,8 +65,19 @@ if ($id != "about") {
 								<span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
-								<li><p class="navbar-text">Akkreditiert: <span><?=($akkreditiert)?$akkreditiert:0;?></span</p></li>
-								<li><p class="navbar-text">Ø-Alter: <span><?=($alter)?$alter:0;?></span></p></li>
+<?php
+if ( $info->PT==1 && $info->AV==1 ) {
+?>								<li><p class="navbar-text">Akkreditiert PT: <span><?=($akkreditiertPT)?$akkreditiertPT:0;?></span</p></li>
+								<li><p class="navbar-text">Akkreditiert AV: <span><?=($akkreditiertAV)?$akkreditiertAV:0;?></span</p></li>
+<?php
+} elseif ( $info->PT==1 && $info->AV==0 ) {
+?>								<li><p class="navbar-text">Akkreditiert: <span><?=($akkreditiertPT)?$akkreditiertPT:0;?></span</p></li>
+<?php
+} elseif ( $info->PT==0 && $info->AV==1 ) {
+?>								<li><p class="navbar-text">Akkreditiert: <span><?=($akkreditiertAV)?$akkreditiertAV:0;?></span</p></li>
+<?php
+}
+?>								<li><p class="navbar-text">Ø-Alter: <span><?=($alter)?$alter:0;?></span></p></li>
 								<li role="separator" class="divider"></li>
 								<li><a href="/statistik.php"> Interne Statistik</a></li>
 								<li role="separator" class="divider"></li>
@@ -75,6 +86,7 @@ if ($id != "about") {
 							</ul>
 						</li>
 
+                                                <?php if ($info->akkrolle==9) { ?>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
 								<i class="glyphicon glyphicon-th" aria-hidden="true"></i>
@@ -83,15 +95,15 @@ if ($id != "about") {
 							</a>
 							<ul class="dropdown-menu">
 								<li><a href="/printakk.php"><i class="glyphicon glyphicon-print"></i> Druckansicht Akkreditierte</a></li>
-								<?php if ($info->akkrolle==9) { ?>
+								<li><a href="/postallist.php"><i class="glyphicon glyphicon-envelope"></i> Briefwahl Adressliste</a></li>
 								<li><a href="/mneu.php"><i class="glyphicon glyphicon-plus"></i> Neues Mitglied</a></li>
 								<li><a href="/einnahmen.php"><i class="fa fa-money"></i> Eingenommene Beiträge</a></li>
 								<li><a href="/aenderungen.php"><i class="fa fa-table"></i> Geänderte Mitglieder</a></li>
 								<li><a href="/user.php"><i class="fa fa-users"></i> Benutzerverwaltung</a></li>
 								<li><a href="/upload.php" role="button"><i class="fa fa-upload"></i> Upload Mitgliedsdaten</a></li>
-								<?php } ?>
 							</ul>
 						</li>
+                                                <?php } ?>
 
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown">
