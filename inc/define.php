@@ -8,7 +8,8 @@ $website['start']      = array("hmenu"=>"", "menu"=>"", "page"=>"", "text"=>"Akk
 $website['user']       = array("hmenu"=>"", "menu"=>"", "page"=>"user", "text"=>"Userverwaltung", "titel"=>"Userverwaltung");
 $website['passwd']     = array("hmenu"=>"", "menu"=>"", "page"=>"passwd", "text"=>"Passwort ändern", "titel"=>"Passwort ändern");
 $website['mneu']       = array("hmenu"=>"", "menu"=>"", "page"=>"mneu", "text"=>"Neuanlage Mitglied", "titel"=>"Neuanlage");
-$website['printakk']   = array("hmenu"=>"", "menu"=>"", "page"=>"printakk", "text"=>"Druckliste Akkreditierte", "titel"=>"Druckansicht Akkreditierte");
+$website['printakk']   = array("hmenu"=>"", "menu"=>"", "page"=>"printakk", "text"=>"", "titel"=>"Druckansicht Akkreditierte");
+$website['postallist']   = array("hmenu"=>"", "menu"=>"", "page"=>"postallist", "text"=>"", "titel"=>"Briefwahl Adressliste");
 $website['upload']     = array("hmenu"=>"", "menu"=>"", "page"=>"upload", "text"=>"Upload Mitgliedsdaten", "titel"=>"Upload");
 $website['einnahmen']  = array("hmenu"=>"", "menu"=>"", "page"=>"einnahmen", "text"=>"Eingenommene Beiträge", "titel"=>"Eingenommene Beiträge");
 $website['aenderungen']  = array("hmenu"=>"", "menu"=>"", "page"=>"aenderungen", "text"=>"Geänderte Mitglieder", "titel"=>"Geänderte Mitglieder");
