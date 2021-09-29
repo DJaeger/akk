@@ -1,4 +1,5 @@
 <?php
+
 $id="mneu";
 ini_set('include_path', 'inc');
 include("db.php");
@@ -9,6 +10,4 @@ $action = "new";
 
 include("head.php");
 include("editform.php");
-
 include("footer.php");
-?>

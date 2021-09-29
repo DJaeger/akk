@@ -8,7 +8,7 @@ $rowb = $rsb->fetchAll();
 
 ?>
 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-<table class="akk">
+<table class="table">
 <colgroup>
 <col width="9%">
 <col width="10%">
@@ -16,11 +16,18 @@ $rowb = $rsb->fetchAll();
 <col width="4%">
 <col width="6%">
 <col width="10%">
-<col width="42%">
-<col width="8%">
+<col width="30%">
+<col width="20%">
 </colgroup>
 <tr>
-<th>Mnr</th><th>Nachname</th><th>Vorname</th><th>LV</th><th>Offen</th><th>Bezahlt</th><th>Anmerkung</th><th colspan="2" class="c">PAY!</th>
+<th>Mnr</th>
+<th>Nachname</th>
+<th>Vorname</th>
+<th>LV</th>
+<th>Offen</th>
+<th>Bezahlt</th>
+<th>Anmerkung</th>
+<th></th>
 </tr>
 <tr>
 <?php
@@ -40,11 +47,13 @@ td($rows[$i]['nachname']);
 td($rows[$i]['vorname']);
 td($rows[$i]['lv']);
 tdz($rows[$i]['offenerbeitrag']);
-echo "<td><input type='Text' class='wmax' name='zahlbetrag' id='zahlbetrag' size='1'></td>";
-echo "<td><input type='Text' class='wmax' name='kommentar' id='kommentar' size='1'></td>";
-$button = "<input class='payedit' type='submit' name='paid' value='Pay!'>";
-td($button);
-td("<input class='payedit cancel' type='submit' name='paycancel' value='Abbruch'");
+echo "<td><input type='Text' class='form-control' name='zahlbetrag' id='zahlbetrag' size='1'></td>";
+echo "<td><input type='Text' class='form-control' name='kommentar' id='kommentar' size='1'></td>";
+echo "<td class='text-right'>";
+echo "<input class='btn btn-primary' type='submit' name='paid' value='Bezahlen!'>";
+echo "<input class='btn btn-default cancel' type='submit' name='paycancel' value='Abbruch'";
+echo "</td>";
+
 ?>
 </tr>
 </table>
@@ -54,18 +63,18 @@ td("<input class='payedit cancel' type='submit' name='paycancel' value='Abbruch'
 </form>
 
 <h2>Gezahlte Beiträge</h2>
-<table>
+<table class="table">
 <tr><th>Mnr</th><th>Jahr</th><th>Beitrag Soll</th><th>Beitrag Ist</th><th>Datum Ist</th><th>Bemerkung</th></tr>
 <?php
 echo "<tr>";
 for ($i=0; $i<count($rowb); $i++) {
-tdr($rowb[$i]['mnr']);
-tdr($rowb[$i]['opjahr']);
-tdr($rowb[$i]['beitragsoll']);
-tdr($rowb[$i]['beitragist']);
-td((intval($rowb[$i]['datumist'])) != 0 ? $rowb[$i]['datumist'] : "");
-td($rowb[$i]['bemerkung']);
-echo "</tr>\n";
+    tdr($rowb[$i]['mnr']);
+    tdr($rowb[$i]['opjahr']);
+    tdr($rowb[$i]['beitragsoll']);
+    tdr($rowb[$i]['beitragist']);
+    td((intval($rowb[$i]['datumist'])) != 0 ? $rowb[$i]['datumist'] : "");
+    td($rowb[$i]['bemerkung']);
+    echo "</tr>\n";
 }
 ?>
 </table>

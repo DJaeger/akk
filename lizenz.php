@@ -405,5 +405,3 @@ dieser Lizenz.</p>
 
 <?php
 include("footer.php");
-?>
-

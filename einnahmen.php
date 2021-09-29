@@ -8,7 +8,7 @@ $db = new mydb();
 
 $sql = "SELECT p.mitgliedsnummer, a.nachname, a.vorname, p.gezahlt, p.akkrediteur, p.geaendert, p.kommentar FROM tblpay p JOIN tblakk a ON p.akkID = a.akkID ORDER BY p.geaendert";
 $q=$db->query($sql);
-echo "<table class='akk'>\n";
+echo "<table class='table table-borderes'>\n";
 echo "<thead><tr>";
 th("Mnr");
 th("Nachname");
@@ -37,8 +37,7 @@ echo "</tbody>";
 echo "<tfoot>";
 echo "<tr><td colspan='3'>Gesamt</td>";
 tdz($row['gesamt']);
-echo "<td colspan='3'>&nbsp;</td>";
+echo "<td colspan='4'>&nbsp;</td>";
 echo "</tr></tfoot>\n";
 echo "</table>\n";
 include("footer.php");
-?>

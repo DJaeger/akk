@@ -5,9 +5,10 @@ include("db.php");
 include("define.php");
 include("head.php");
 $db = new mydb();
+
 $sql = "SELECT p.new, p.edit, p.mitgliedsnummer, p.nachname, p.vorname, p.strasse, p.plz, p.ort, p.lv, p.kv, p.geaendert, p.kommentar FROM tbladress p ORDER BY p.adressID";
 $q=$db->query($sql);
-echo "<table class='akk'>\n";
+echo "<table class='table table-borderes'>\n";
 echo "<thead><tr>";
 th("Neu?");
 th("Mnr");
@@ -43,4 +44,3 @@ echo "</tbody>";
 echo "<tfoot>";
 echo "</table>\n";
 include("footer.php");
-?>
