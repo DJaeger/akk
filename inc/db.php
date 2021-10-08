@@ -1,8 +1,6 @@
 <?php
-class mydb extends PDO
-{
-    public function __construct($file = 'akk.ini')
-    {
+class mydb extends PDO {
+    public function __construct($file = 'akk.ini') {
         if (!$settings = parse_ini_file($file, TRUE)) throw new exception('Unable to open ' . $file . '.');
 
         $dns = $settings['database']['driver'] .
@@ -13,8 +11,7 @@ class mydb extends PDO
         parent::__construct($dns, $settings['database']['username'], $settings['database']['password'], $options);
     }
 }
-class allginfo
-{
+class allginfo {
     public $veranstaltung;
     public $startdate;
     public $enddate;
@@ -32,8 +29,7 @@ class allginfo
      * $modus: 0 = normal mit login/user check gegen DB.tbluser
      *         1 = Aufruf von/für Statistikseite, ohne login
      */
-    function __construct($file = 'akk.ini', $modus = 0)
-    {
+    function __construct($file = 'akk.ini', $modus = 0) {
         $db = new mydb();
 
         $file = 'akk.ini';
@@ -54,8 +50,10 @@ class allginfo
         $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
 
         if ($modus == 0) {
-            $usercount=$db->query("SELECT COUNT(*) AS zahl FROM tbluser")->fetch();
-            if ($usercount==NULL) die("Usercount ist kaputt");
+            $usercount=$db->query("SELECT COUNT(*) AS zahl FROM tbluser");
+            if ($usercount==false) throw new Exception("User-Tabelle fehlt");
+            $usercountquery=$usercount->fetch();
+            if ($usercount==NULL) throw new Exception("Usercount ist kaputt");
             $this->userzahl=$usercount['zahl'];
             if ($this->userzahl==0) {
                 $this->akkuser =  'admin';
