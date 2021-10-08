@@ -50,9 +50,9 @@ class allginfo {
         $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
 
         if ($modus == 0) {
-            $usercount=$db->query("SELECT COUNT(*) AS zahl FROM tbluser");
-            if ($usercount==false) throw new Exception("User-Tabelle fehlt");
-            $usercountquery=$usercount->fetch();
+            $usercountquery=$db->query("SELECT COUNT(*) AS zahl FROM tbluser");
+            if ($usercountquery==false) throw new Exception("User-Tabelle fehlt");
+            $usercount=$usercountquery->fetch();
             if ($usercount==NULL) throw new Exception("Usercount ist kaputt");
             $this->userzahl=$usercount['zahl'];
             if ($this->userzahl==0) {
