@@ -1,5 +1,10 @@
 <?php
-$info = new allginfo();
+try {
+    $info = new allginfo();
+} catch (Exception $ex) {
+    header('Location: /install.php');
+    die('Fehler beim Laden der Konfiguration');
+}
 $action = "";
 $h2 = "";
 
