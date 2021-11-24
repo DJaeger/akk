@@ -74,7 +74,7 @@ if ($info->AV == 1) {
     $num_rows = 0;
 
     $mnr = intval($_REQUEST['mnr']);
-    $sql = "SELECT DISTINCTROW * FROM tblakk WHERE akkPT = 1 ORDER BY mitgliedsnummer";
+    $sql = "SELECT DISTINCTROW * FROM tblakk WHERE akkAV = 1 ORDER BY mitgliedsnummer";
     $rs = $db->prepare($sql);
     $rs->execute();
     $rows = $rs->fetchAll();
