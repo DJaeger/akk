@@ -97,7 +97,7 @@ function pUserAdd($db,$User,$Name,$Rolle) {
 
     echo "<div class='form-group'>\n";
     echo "<div class='col-sm-offset-2 col-sm-10'>\n";
-    echo "<input type='submit' class='btn btn-primary' name='s20' value='OK'>\n";
+    echo "<input type='submit' class='btn btn-primary' name='s10' value='OK'>\n";
     echo "<input type='submit' class='btn btn-default' name='x' value='Abbrechen'>\n";
     echo "</div></div>\n";
 
