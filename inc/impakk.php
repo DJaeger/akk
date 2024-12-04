@@ -16,7 +16,6 @@ if($data == false) {
 		$question_marks = array();
 		$insert_values = array();
 		foreach($data as &$row){
-			array_shift($row);
 			// Not allowed to be imported
 			unset( $row['akk'], $row['akkPT'], $row['akkAV'], $row['akkrediteur'], $row['akkrediteurPT'], $row['akkrediteurAV'] );
 			unset( $row['id'], $row['stimmberechtigung'], $row['offenerbeitragold'], $row['geaendert'] );
