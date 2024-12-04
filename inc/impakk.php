@@ -1,5 +1,5 @@
 <?php
-$data = csv_to_array($info->rootdir . '/upload/uplakk.csv',";");
+$data = csv_to_array($info->rootdir . '/upload/uplakk.csv',$_POST['separator']);
 if($data == false) {
 	echo "Falsches Format";
 } else {

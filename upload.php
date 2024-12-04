@@ -15,6 +15,23 @@ function pUploadForm() {
 <form enctype='multipart/form-data' action='upload.php' method='POST' class='form-horizontal'>
     <input type='hidden' name='MAX_FILE_SIZE' value='100000000' />
     <div class='form-group'>
+	<label for="separator" class="col-sm-2 control-label">Separator:</label>
+	<div class="col-sm-10">
+            <div class="radio">
+                <label>
+	            <input id="separator" name='separator' type='radio' value=',' checked='checked' />
+                    Komma
+                </label>
+            </div>
+            <div class="radio">
+                <label>
+	            <input id="separator" name='separator' type='radio' value=';' />
+                    Semikolon
+                </label>
+            </div>
+	</div>
+    </div>
+    <div class='form-group'>
 	<label for="fileakk" class="col-sm-2 control-label">Akk-Datei:</label>
 	<div class="col-sm-10">
 	    <input id="fileakk" name='akk' type='file' accept='.csv' />
