@@ -32,8 +32,8 @@ if (isset($_REQUEST['akkav'])) {
 }
 
 // PT Mitglied wird deakkreditiert
-if (isset($_REQUEST['deakk'])) {
-    $k = each($_REQUEST['deakk']);
+if (isset($_REQUEST['deakkpt'])) {
+    $k = each($_REQUEST['deakkpt']);
     $akkid = $k['key'];
     $sql = "UPDATE tblakk SET akkPT = 0, akkrediteurPT = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
@@ -43,8 +43,8 @@ if (isset($_REQUEST['deakk'])) {
 }
 
 // AV Mitglied wird deakkreditiert
-if (isset($_REQUEST['deakk'])) {
-    $k = each($_REQUEST['deakk']);
+if (isset($_REQUEST['deakkav'])) {
+    $k = each($_REQUEST['deakkav']);
     $akkid = $k['key'];
     $sql = "UPDATE tblakk SET akkAV = 0, akkrediteurAV = :akkrediteur, geaendert = now() WHERE akkID = :akkID";
     $rs = $db->prepare($sql);
