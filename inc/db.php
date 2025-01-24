@@ -44,7 +44,7 @@ class allginfo {
         if ( $this->ebene == 'EP' ) {
             $this->nations = array ('BE','GR','MT','SK','BG','IE','NL','SI','DK','IT','AT','ES','DE','HR','PL','CZ','EE','LV','PT','HU','FI','LT','RO','GB','FR','LU','SE','CY','EU','D','A','');
         } else {
-            $this->nations = array ('DE','D','');
+            $this->nations = array ('DE','D','de','d','');
         }
         $this->rootdir = (!empty($settings['system']['rootdir']))?$settings['system']['rootdir']:"/web/akk";
         $this->htpasswd = (!empty($settings['system']['htpasswd']))?$settings['system']['htpasswd']:$settings['system']['rootdir']."/data/passwd.users";
