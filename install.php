@@ -31,7 +31,7 @@ header("Content-Type: text/html; charset=utf-8");
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand logo" href="https://piraten-tools.de/">
+                    <a class="navbar-brand logo" href="https://piraten.tools/">
                         <img src="/img/piratentools-logo.png">
                     </a>
                     <a class="navbar-brand" href="/">Akk</a>
