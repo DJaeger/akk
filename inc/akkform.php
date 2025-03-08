@@ -65,7 +65,7 @@ if ($num_rows > 0) {
 			}
             if ($rows[$i]['akkAV'] == 1) {              // bereits akkreditiert für AV
                 $crAV = "akkreditiert";
-            } elseif (!in_array($rows[$i]['nation'],$info->nations) ) {
+            } elseif (!in_array(strtoupper($rows[$i]['nation']),$info->nations) ) {
 				$crAV =  "offenerbeitrag";
 				$zusatzAV = " nation! ";
 			} elseif ($datummid > $datum18) {
